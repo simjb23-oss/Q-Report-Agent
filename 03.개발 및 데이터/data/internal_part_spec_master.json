@@ -1,0 +1,268 @@
+[
+  {
+    "part_no": "INJ-H401-BK",
+    "part_name": "모터 하우징 커버 (사출품)",
+    "category": "사출성형",
+    "material": "ABS (불꽃지연 HF-0660I)",
+    "drawing_rev": "Rev 2.1",
+    "specs": [
+      {
+        "item_name": "외경 (Outer Diameter)",
+        "nominal": 85.0,
+        "tol_plus": 0.15,
+        "tol_minus": -0.15,
+        "usl": 85.15,
+        "lsl": 84.85,
+        "unit": "mm",
+        "importance": "Critical"
+      },
+      {
+        "item_name": "내경 (Inner Diameter)",
+        "nominal": 62.0,
+        "tol_plus": 0.1,
+        "tol_minus": -0.1,
+        "usl": 62.1,
+        "lsl": 61.9,
+        "unit": "mm",
+        "importance": "Critical"
+      },
+      {
+        "item_name": "전체 높이 (Total Height)",
+        "nominal": 42.5,
+        "tol_plus": 0.2,
+        "tol_minus": -0.2,
+        "usl": 42.7,
+        "lsl": 42.3,
+        "unit": "mm",
+        "importance": "Major"
+      },
+      {
+        "item_name": "벽 두께 (Wall Thickness)",
+        "nominal": 2.5,
+        "tol_plus": 0.1,
+        "tol_minus": -0.1,
+        "usl": 2.6,
+        "lsl": 2.4,
+        "unit": "mm",
+        "importance": "Major"
+      },
+      {
+        "item_name": "체결 보스 피치 (Boss Pitch)",
+        "nominal": 70.0,
+        "tol_plus": 0.15,
+        "tol_minus": -0.15,
+        "usl": 70.15,
+        "lsl": 69.85,
+        "unit": "mm",
+        "importance": "Critical"
+      }
+    ]
+  },
+  {
+    "part_no": "MOT-S204-ST",
+    "part_name": "모터 구동 샤프트 (정밀가공)",
+    "category": "정밀가공",
+    "material": "SUS304 (스테인리스강)",
+    "drawing_rev": "Rev 1.4",
+    "specs": [
+      {
+        "item_name": "베어링 안착부 축경 (Bearing Dia)",
+        "nominal": 12.0,
+        "tol_plus": 0.008,
+        "tol_minus": -0.005,
+        "usl": 12.008,
+        "lsl": 11.995,
+        "unit": "mm",
+        "importance": "Critical"
+      },
+      {
+        "item_name": "샤프트 전장 (Overall Length)",
+        "nominal": 115.0,
+        "tol_plus": 0.1,
+        "tol_minus": -0.1,
+        "usl": 115.1,
+        "lsl": 114.9,
+        "unit": "mm",
+        "importance": "Major"
+      },
+      {
+        "item_name": "동심도 (Concentricity)",
+        "nominal": 0.0,
+        "tol_plus": 0.015,
+        "tol_minus": 0.0,
+        "usl": 0.015,
+        "lsl": 0.0,
+        "unit": "mm",
+        "importance": "Critical"
+      },
+      {
+        "item_name": "표면 조도 (Roughness Ra)",
+        "nominal": 0.4,
+        "tol_plus": 0.4,
+        "tol_minus": 0.0,
+        "usl": 0.8,
+        "lsl": 0.0,
+        "unit": "um",
+        "importance": "Major"
+      },
+      {
+        "item_name": "표면 경도 (Hardness HRC)",
+        "nominal": 45.0,
+        "tol_plus": 3.0,
+        "tol_minus": -3.0,
+        "usl": 48.0,
+        "lsl": 42.0,
+        "unit": "HRC",
+        "importance": "Critical"
+      }
+    ]
+  },
+  {
+    "part_no": "SL-G102-SI",
+    "part_name": "방수 실리콘 패킹 가스켓",
+    "category": "고무/실리콘",
+    "material": "Silicone Rubber (식품용 NSF-51 인증)",
+    "drawing_rev": "Rev 1.0",
+    "specs": [
+      {
+        "item_name": "내경 (Inner Diameter)",
+        "nominal": 78.5,
+        "tol_plus": 0.3,
+        "tol_minus": -0.3,
+        "usl": 78.8,
+        "lsl": 78.2,
+        "unit": "mm",
+        "importance": "Critical"
+      },
+      {
+        "item_name": "단면 선경 (Cross-section Dia)",
+        "nominal": 3.2,
+        "tol_plus": 0.15,
+        "tol_minus": -0.15,
+        "usl": 3.35,
+        "lsl": 3.05,
+        "unit": "mm",
+        "importance": "Critical"
+      },
+      {
+        "item_name": "고무 경도 (Hardness Shore A)",
+        "nominal": 60.0,
+        "tol_plus": 5.0,
+        "tol_minus": -5.0,
+        "usl": 65.0,
+        "lsl": 55.0,
+        "unit": "Shore A",
+        "importance": "Major"
+      }
+    ]
+  },
+  {
+    "part_no": "BL-D01EWH",
+    "part_name": "초고속 블렌더 완제품 (Hurom/Haier Y-938)",
+    "category": "완제품 종합 출하검사",
+    "material": "PC / ABS / SUS301 (식품접촉 등급)",
+    "drawing_rev": "QA-23-109-012 ver.01",
+    "specs": [
+      {
+        "item_name": "무부하 소비전력 (NO-load Power)",
+        "nominal": 300.0,
+        "tol_plus": 50.0,
+        "tol_minus": -50.0,
+        "usl": 350.0,
+        "lsl": 250.0,
+        "unit": "W",
+        "importance": "Critical"
+      },
+      {
+        "item_name": "500mL 부하 소비전력 (500mL Load Power)",
+        "nominal": 696.5,
+        "tol_plus": 56.5,
+        "tol_minus": -56.5,
+        "usl": 753.0,
+        "lsl": 640.0,
+        "unit": "W",
+        "importance": "Major"
+      },
+      {
+        "item_name": "700mL 부하 소비전력 (700mL Load Power)",
+        "nominal": 840.0,
+        "tol_plus": 60.0,
+        "tol_minus": -60.0,
+        "usl": 900.0,
+        "lsl": 780.0,
+        "unit": "W",
+        "importance": "Critical"
+      },
+      {
+        "item_name": "무부하 모터 회전수 (No-load Speed)",
+        "nominal": 20900.0,
+        "tol_plus": 2090.0,
+        "tol_minus": -2090.0,
+        "usl": 22990.0,
+        "lsl": 18810.0,
+        "unit": "rpm",
+        "importance": "Critical"
+      },
+      {
+        "item_name": "소음 테스트 (Noise Test @1m)",
+        "nominal": 75.0,
+        "tol_plus": 15.0,
+        "tol_minus": 0.0,
+        "usl": 90.0,
+        "lsl": 0.0,
+        "unit": "dB",
+        "importance": "Major"
+      },
+      {
+        "item_name": "용기 용량 500mL (Jar Capacity 500mL)",
+        "nominal": 500.0,
+        "tol_plus": 25.0,
+        "tol_minus": -25.0,
+        "usl": 525.0,
+        "lsl": 475.0,
+        "unit": "mL",
+        "importance": "Major"
+      },
+      {
+        "item_name": "용기 용량 700mL (Jar Capacity 700mL)",
+        "nominal": 700.0,
+        "tol_plus": 35.0,
+        "tol_minus": -35.0,
+        "usl": 735.0,
+        "lsl": 665.0,
+        "unit": "mL",
+        "importance": "Major"
+      },
+      {
+        "item_name": "버튼 조작력 (Button Force)",
+        "nominal": 1.5,
+        "tol_plus": 0.8,
+        "tol_minus": -0.8,
+        "usl": 2.3,
+        "lsl": 0.7,
+        "unit": "kgf",
+        "importance": "Major"
+      },
+      {
+        "item_name": "용기 뚜껑 체결력 (Lid Locking Force)",
+        "nominal": 2.25,
+        "tol_plus": 0.75,
+        "tol_minus": -0.75,
+        "usl": 3.0,
+        "lsl": 1.5,
+        "unit": "kgf.cm",
+        "importance": "Major"
+      },
+      {
+        "item_name": "용기 뚜껑 해제력 (Lid Un-locking Force)",
+        "nominal": 1.25,
+        "tol_plus": 0.95,
+        "tol_minus": -0.95,
+        "usl": 2.2,
+        "lsl": 0.3,
+        "unit": "kgf.cm",
+        "importance": "Major"
+      }
+    ]
+  }
+]

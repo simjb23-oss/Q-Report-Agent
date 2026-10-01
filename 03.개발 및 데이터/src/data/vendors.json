@@ -1,0 +1,91 @@
+[
+  {
+    "vendor_code": "VND-HOTOEM",
+    "vendor_name": "HOTOEM Electronics Co., Ltd.",
+    "short_name": "HOTOEM",
+    "country": "🇨🇳 중국 (선전)",
+    "category": "블렌더 / 믹서",
+    "supplied_models": [
+      "BL-E01"
+    ],
+    "inspection_spec": "QA-25-109-01 (ISO 2859-1 Level II)",
+    "quality_grade": "A",
+    "status": "정상 가동",
+    "contact_person": "Zhang Wei (품질팀장)",
+    "contact_email": "zhang.wei@hotoem.cn",
+    "contact_phone": "+86-755-8932-1100",
+    "registered_date": "2024-03-15",
+    "last_inspection_date": "2026-09-29",
+    "total_inspections": 16,
+    "pass_count": 15,
+    "ncr_count": 1,
+    "notes": "초고속 모터 특화 공급사. ISO 9001/14001 인증 보유."
+  },
+  {
+    "vendor_code": "VND-MYLUX",
+    "vendor_name": "MYLUX Appliance Industrial",
+    "short_name": "MYLUX",
+    "country": "🇨🇳 중국 (닝보)",
+    "category": "진공 블렌더 / 콤팩트 믹서",
+    "supplied_models": [
+      "BL-D01",
+      "BL-C01"
+    ],
+    "inspection_spec": "QA-23-109-012 (ISO 2859-1)",
+    "quality_grade": "B",
+    "status": "중점 관리",
+    "contact_person": "Lin Xiao (해외품질책임)",
+    "contact_email": "lin.xiao@mylux.com",
+    "contact_phone": "+86-574-8712-4433",
+    "registered_date": "2023-08-20",
+    "last_inspection_date": "2026-09-28",
+    "total_inspections": 18,
+    "pass_count": 15,
+    "ncr_count": 3,
+    "notes": "용기 사출 외경 공차 편차 발생 이력 있어 강화검사 적용 중."
+  },
+  {
+    "vendor_code": "VND-CRASTAL",
+    "vendor_name": "(주)크리스탈 일렉트릭",
+    "short_name": "CRASTAL",
+    "country": "🇰🇷 대한민국 (경남 창원)",
+    "category": "전기주전자 / 스마트 티마스터",
+    "supplied_models": [
+      "TM-HB1"
+    ],
+    "inspection_spec": "QA-19-TM-003 (ISO 2859-1 Level I)",
+    "quality_grade": "A",
+    "status": "정상 가동",
+    "contact_person": "김진석 팀장 (품질관리부)",
+    "contact_email": "jskim@crastal.co.kr",
+    "contact_phone": "055-288-4900",
+    "registered_date": "2022-11-10",
+    "last_inspection_date": "2026-09-29",
+    "total_inspections": 13,
+    "pass_count": 12,
+    "ncr_count": 1,
+    "notes": "국내 핵심 전략 협력사. 온도 제어 정밀도 우수."
+  },
+  {
+    "vendor_code": "VND-PHILP",
+    "vendor_name": "余姚市菲尔浦电器有限公司 (필립전기)",
+    "short_name": "PHILP (필립전기)",
+    "country": "🇨🇳 중국 (저장성 위야오)",
+    "category": "전동 스퀴저 / 착즙기",
+    "supplied_models": [
+      "CJ-B03"
+    ],
+    "inspection_spec": "MIL-STD-105E II",
+    "quality_grade": "B",
+    "status": "정상 가동",
+    "contact_person": "Chen Ming (수출품질이사)",
+    "contact_email": "chen.m@philp-elec.com",
+    "contact_phone": "+86-574-6288-9901",
+    "registered_date": "2024-01-05",
+    "last_inspection_date": "2026-09-28",
+    "total_inspections": 9,
+    "pass_count": 8,
+    "ncr_count": 1,
+    "notes": "모터 저소음 구동 및 착즙 기어 설계 우수."
+  }
+]

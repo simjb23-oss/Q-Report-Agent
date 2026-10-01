@@ -1,0 +1,20 @@
+review_id,product_name,country,channel,rating,review_date,language,review_text,ground_truth_category,target_part
+REV-001,2026 Cordless Pressure Washer,US,Amazon.com (미국),1,2026-08-05,en,"Water spraying out of the joint lock ring after 3rd use! The pressure dropped completely and soaked my clothes.",defect_leakage,Nozzle Lock Ring
+REV-002,2026 Cordless Pressure Washer,US,Amazon.com (미국),1,2026-08-06,en,"Noticeable hairline crack near the lock ring mechanism. Water leaks everywhere when trigger is squeezed.",defect_crack,Nozzle Lock Ring
+REV-003,2026 Cordless Pressure Washer,DE,Amazon.de (독일),1,2026-08-07,de,"Wasser tritt an der Verbindungsstelle der Düse aus. Der Schließring scheint gebrochen zu sein.",defect_leakage,Nozzle Lock Ring
+REV-004,2026 Cordless Pressure Washer,VN,Shopee (베트남/동남아),1,2026-08-08,vi,"Dùng được 2 lần thì khớp nối vòi xịt bị rỉ nước mạnh, áp lực yếu hẳn.",defect_leakage,Nozzle Lock Ring
+REV-005,2026 Cordless Pressure Washer,KR,네이버 스마트스토어 (한국),1,2026-08-09,ko,"노즐 체결부 락링 틈새로 고압수가 뿜어져 나옵니다. 실링 고무 오링 규격이 안 맞는 것 같아요.",defect_leakage,Nozzle O-ring
+REV-006,2026 Cordless Pressure Washer,US,Amazon.com (미국),2,2026-08-10,en,"The motor housing gets extremely hot after only 5 minutes of continuous washing. Burning plastic odor detected.",defect_overheat,Motor Housing
+REV-007,2026 Cordless Pressure Washer,US,Amazon.com (미국),1,2026-08-11,en,"Motor suddenly shut down with smoking smell. Housing near air vent melted slightly.",defect_overheat,Motor Housing
+REV-008,2026 Cordless Pressure Washer,DE,Amazon.de (독일),2,2026-08-12,de,"Der Motor wird nach 10 Minuten extrem heiß und schaltet sich automatisch ab.",defect_overheat,Motor Housing
+REV-009,2026 Cordless Pressure Washer,KR,네이버 스마트스토어 (한국),1,2026-08-13,ko,"모터 커버 플라스틱 사출 불량인지 모터 열기 때문에 체결 부위가 약간 벌어지면서 타는 냄새 납니다.",defect_overheat,Motor Housing
+REV-010,2026 Cordless Pressure Washer,US,Amazon.com (미국),1,2026-08-14,en,"Battery pack latch tolerance is terrible. Vibration shakes the battery loose and it falls off during operation.",defect_tolerance,Battery Latch
+REV-011,2026 Cordless Pressure Washer,US,Amazon.com (미국),2,2026-08-15,en,"Battery does not click in tightly. Small gap causes intermittent power disconnection.",defect_tolerance,Battery Latch
+REV-012,2026 Cordless Pressure Washer,VN,Shopee (베트남/동남아),1,2026-08-16,vi,"Khớp pin bị lỏng lẻo, đang xịt rửa xe thì pin tụt ra ngoài rơi xuống đất nứt vỏ.",defect_tolerance,Battery Latch
+REV-013,2026 Cordless Pressure Washer,US,Amazon.com (미국),1,2026-08-17,en,"Severe water leak at nozzle connection. Plastic material PA or ABS seems too brittle for high pressure vibration.",defect_leakage,Nozzle Lock Ring
+REV-014,2026 Cordless Pressure Washer,US,Amazon.com (미국),1,2026-08-18,en,"Second unit replaced, yet the same leakage issue occurs at the spray nozzle coupling ring.",defect_leakage,Nozzle Lock Ring
+REV-015,2026 Cordless Pressure Washer,DE,Amazon.de (독일),1,2026-08-19,de,"Undichtigkeit am Schnellanschluss. Dichtungsring hält dem Druck nicht stand.",defect_leakage,Nozzle O-ring
+REV-016,2026 Cordless Pressure Washer,US,Amazon.com (미국),1,2026-08-20,en,"Box arrived completely smashed and torn open. Delivery courier tossed it over the fence!",noise_shipping,None
+REV-017,2026 Cordless Pressure Washer,US,Amazon.com (미국),2,2026-08-21,en,"Shipping took 3 weeks to arrive. Tracking number did not update for 10 days.",noise_shipping,None
+REV-018,2026 Cordless Pressure Washer,DE,Amazon.de (독일),1,2026-08-22,de,"Karton war beschädigt und aufgerissen. Versand mit DHL war extrem langsam.",noise_shipping,None
+REV-019,2026 Cordless Pressure Washer,KR,네이버 스마트스토어 (한국),1,2026-08-23,ko,"택배 박스가 다 젖어서 왔네요. 배송 기사님이 비 오는 날 문 앞에 그냥 던져두고 �

@@ -1,0 +1,26 @@
+# Security & Environment
+.env
+.env.local
+*.key
+credentials.toml
+
+# Python cache & artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.log
+.pytest_cache/
+
+# Large binary / media files (avoid GitHub size limit)
+*.mp4
+*.zip
+
+# Temporary dumps
+pdf1_dump.txt
+pdf2_dump.txt
+temp_uploads/
+
+# OS specific
+.DS_Store
+Thumbs.db
+desktop.ini
