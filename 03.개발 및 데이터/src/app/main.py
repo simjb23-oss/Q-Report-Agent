@@ -71,7 +71,26 @@ st.markdown(
         color: #F8FAFC !important;
     }
 
-    /* 2. 사이드바 내부 브랜드/타이틀 라벨 선명도 고정 */
+    /* 2. 사이드바 내부 인프라 카드 및 상태 뱃지 완벽 고대비 */
+    .sb-info-card {
+        background-color: #1E293B !important;
+        border: 1px solid #334155 !important;
+        border-radius: 10px !important;
+    }
+    .sb-info-card,
+    .sb-info-card div,
+    .sb-info-card span.sb-infra-label {
+        color: #F8FAFC !important;
+    }
+    .sb-badge-active,
+    .sb-badge-active * {
+        color: #052E16 !important;
+        background-color: #4ADE80 !important;
+        font-weight: 800 !important;
+        -webkit-text-fill-color: #052E16 !important;
+    }
+
+    /* 2-1. 사이드바 내부 브랜드/타이틀 라벨 선명도 고정 */
     .sb-title-label, .sb-item-label {
         color: #F8FAFC !important;
         font-weight: 800 !important;
@@ -267,24 +286,24 @@ with st.sidebar:
     st.markdown("<hr style='margin:12px 0; border:none; border-top:1px solid #e2e8f0;'>", unsafe_allow_html=True)
 
     # -------------------------------------------------------------
-    # [블록 5] 인프라 연동 상태 모니터 (줄바꿈/짤림 방지 최적화)
+    # [블록 5] 인프라 연동 상태 모니터 (줄바꿈/짤림 방지 최적화 & 선명한 고대비)
     # -------------------------------------------------------------
     st.markdown("""
-    <div class="sb-title-label" style="font-size:13px; font-weight:800; margin-bottom:8px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+    <div class="sb-title-label" style="font-size:13px; font-weight:800; color:#F8FAFC !important; margin-bottom:8px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
         [인프라 연동 상태 모니터]
     </div>
-    <div class="sb-info-card" style="border-radius:10px; padding:12px 14px; font-size:12px; line-height:1.6;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; white-space:nowrap; gap:6px;">
-            <span style="font-weight:700; white-space:nowrap;">• RapidOCR Engine:</span>
-            <span style="font-weight:700; color:#15803d; background:#dcfce7; padding:2px 7px; border-radius:4px; border:1px solid #86efac; white-space:nowrap; font-size:11px;">Active</span>
+    <div class="sb-info-card" style="background-color:#1E293B !important; border:1px solid #334155 !important; border-radius:10px; padding:12px 14px; font-size:12px; line-height:1.6;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; white-space:nowrap; gap:6px;">
+            <span class="sb-infra-label" style="font-weight:700; color:#F8FAFC !important; white-space:nowrap;">• RapidOCR Engine:</span>
+            <span class="sb-badge-active" style="font-weight:800; color:#052e16 !important; background-color:#4ade80 !important; padding:3px 8px; border-radius:6px; border:1px solid #22c55e !important; white-space:nowrap; font-size:11px;">Active</span>
         </div>
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; white-space:nowrap; gap:6px;">
-            <span style="font-weight:700; white-space:nowrap;">• Cloud Webhook:</span>
-            <span style="font-weight:700; color:#15803d; background:#dcfce7; padding:2px 7px; border-radius:4px; border:1px solid #86efac; white-space:nowrap; font-size:11px;">Synced (Apps Script)</span>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; white-space:nowrap; gap:6px;">
+            <span class="sb-infra-label" style="font-weight:700; color:#F8FAFC !important; white-space:nowrap;">• Cloud Webhook:</span>
+            <span class="sb-badge-active" style="font-weight:800; color:#052e16 !important; background-color:#4ade80 !important; padding:3px 8px; border-radius:6px; border:1px solid #22c55e !important; white-space:nowrap; font-size:11px;">Synced (Apps Script)</span>
         </div>
         <div style="display:flex; justify-content:space-between; align-items:center; white-space:nowrap; gap:6px;">
-            <span style="font-weight:700; white-space:nowrap;">• Memory Cache:</span>
-            <span style="font-weight:700; color:#15803d; background:#dcfce7; padding:2px 7px; border-radius:4px; border:1px solid #86efac; white-space:nowrap; font-size:11px;">24 Cases Loaded</span>
+            <span class="sb-infra-label" style="font-weight:700; color:#F8FAFC !important; white-space:nowrap;">• Memory Cache:</span>
+            <span class="sb-badge-active" style="font-weight:800; color:#052e16 !important; background-color:#4ade80 !important; padding:3px 8px; border-radius:6px; border:1px solid #22c55e !important; white-space:nowrap; font-size:11px;">24 Cases Loaded</span>
         </div>
     </div>
     """, unsafe_allow_html=True)
