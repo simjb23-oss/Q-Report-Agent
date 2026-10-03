@@ -61,24 +61,49 @@ st.markdown("""
     color: #F8FAFC !important;
 }
 
-/* 3. 사이드바 배경 및 글자 강제 */
+/* 3. 사이드바 배경 및 일반 글자 */
 [data-testid="stSidebar"] {
     background-color: #1E293B !important;
 }
-[data-testid="stSidebar"] * {
+[data-testid="stSidebar"] p,
+[data-testid="stSidebar"] span,
+[data-testid="stSidebar"] label,
+[data-testid="stSidebar"] h1,
+[data-testid="stSidebar"] h2,
+[data-testid="stSidebar"] h3,
+[data-testid="stSidebar"] h4,
+[data-testid="stSidebar"] div:not([data-baseweb="select"]):not([data-baseweb="select"] *) {
     color: #F8FAFC !important;
 }
 
-/* 4. 입력창(글자가 안 보이는 단골 원인)은 흰 배경에 검은 글씨로 반전 */
-input, textarea, select, [data-baseweb="select"] {
+/* 4. 입력창 & 셀렉트박스 (사이드바/메인 공통): 흰 배경 + 칠흑 블랙 글씨 강제 */
+input, textarea, select, [data-baseweb="select"],
+[data-testid="stSidebar"] input,
+[data-testid="stSidebar"] textarea,
+[data-testid="stSidebar"] select,
+[data-testid="stSidebar"] [data-baseweb="select"] {
     background-color: #FFFFFF !important;
     color: #000000 !important;
 }
-input *, textarea *, select *, [data-baseweb="select"] * {
+
+/* 셀렉트박스 및 인풋 내부의 모든 텍스트/스팬/태그에 완전한 검은색 강제 */
+input *, textarea *, select *, [data-baseweb="select"] *,
+[data-testid="stSidebar"] input *,
+[data-testid="stSidebar"] textarea *,
+[data-testid="stSidebar"] select *,
+[data-testid="stSidebar"] [data-baseweb="select"] *,
+[data-testid="stSidebar"] [data-baseweb="select"] span,
+[data-testid="stSidebar"] [data-baseweb="select"] div {
     color: #000000 !important;
     -webkit-text-fill-color: #000000 !important;
+    font-weight: 600 !important;
 }
-[data-baseweb="popover"] *, [data-baseweb="menu"] *, li[role="option"] * {
+
+/* 드롭다운 옵션 메뉴 팝오버 */
+[data-baseweb="popover"], [data-baseweb="popover"] *,
+[data-baseweb="menu"], [data-baseweb="menu"] *,
+li[role="option"], li[role="option"] * {
+    background-color: #FFFFFF !important;
     color: #000000 !important;
     -webkit-text-fill-color: #000000 !important;
 }
@@ -131,24 +156,21 @@ with st.sidebar:
     # 3. 에이전트 컨트롤 패널
     st.markdown("### ⚙️ 에이전트 컨트롤")
     with st.container(border=True):
-        st.markdown("**• AQL 검사 엄격도 (ISO 2859-1)**")
         aql_mode = st.selectbox(
-            "AQL 검사 수준",
+            "• AQL 검사 엄격도 (ISO 2859-1)",
             ["일반검사 Level II (기본)", "엄격검사 Level III (강화)", "특별검사 S-4 (정밀)"],
             index=0,
-            label_visibility="collapsed",
             help="[AQL(합격품질한계) 검사 엄격도 도입 배경]\n제조 품질 표준(ISO 2859-1)에 따라 부품 중요도 및 협력사 품질 등급에 맞는 통계적 샘플링 엄격도를 동적으로 적용합니다."
         )
 
-        st.markdown("**• AI 추론 엔진**")
+        st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
         engine_choice = st.radio(
-            "AI 추론 엔진",
+            "• AI 추론 엔진",
             [
                 "Gemini 3.8 Flash (Multi-modal)",
                 "로컬 룰베이스 Fallback 강제 (시연용)"
             ],
             index=0,
-            label_visibility="collapsed",
             help="• Gemini 3.8 Flash: 비정형 성적서 시각 판독 LLM\n• 로컬 룰베이스 Fallback: 폐쇄망 및 무인 오프라인 Fail-Safe 엔진"
         )
 
