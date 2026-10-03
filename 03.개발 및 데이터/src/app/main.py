@@ -740,7 +740,17 @@ if "1. 성적서" in nav_menu:
                     time.sleep(duration)
                 progress_bar.progress(100, text=" 모든 감사 파이프라인 완결 (100%)")
 
-                parser = InspectionReportParser()
+                # AI 추론 엔진 설정 및 API 키 감지
+                gemini_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY") or ""
+                try:
+                    if not gemini_key and "GEMINI_API_KEY" in st.secrets:
+                        gemini_key = st.secrets["GEMINI_API_KEY"]
+                except Exception:
+                    pass
+
+                use_gemini = ("Gemini" in engine_choice) and bool(gemini_key)
+                parser_provider = "Google Gemini" if use_gemini else "로컬 룰베이스"
+                parser = InspectionReportParser(provider=parser_provider, api_key=gemini_key)
                 evaluator = ToleranceEvaluator()
                 parsed = parser.parse_file(file_to_parse)
                 evaluated = evaluator.evaluate(parsed)
@@ -775,6 +785,19 @@ if "1. 성적서" in nav_menu:
 
         # [WOW 요소 [1]] 좌우 2분할 뷰: 원본 성적서 PDF 뷰어 vs AI 실시간 추출 결과
         st.markdown('<div class="section-card"><div class="section-title"> [시각적 대조] 원본 성적서 vs AI 정밀 추출 결과 (Split View)</div>', unsafe_allow_html=True)
+
+        # [AI 엔진 실시간 가동 상태 인디케이터]
+        gemini_key_active = bool(os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY") or ("GEMINI_API_KEY" in getattr(st, 'secrets', {})))
+        ai_engine_badge = f"<span style='background:#0284c7; color:#ffffff; padding:4px 10px; border-radius:999px; font-size:12px; font-weight:800;'> Google Gemini 2.5 Multi-modal Live Connected</span>" if gemini_key_active else "<span style='background:#059669; color:#ffffff; padding:4px 10px; border-radius:999px; font-size:12px; font-weight:800;'> 로컬 룰베이스 & RapidOCR 무인 연동 중</span>"
+        
+        st.markdown(f"""
+        <div style="background-color:#0f172a; border:1px solid #1e293b; border-radius:10px; padding:12px 18px; margin-bottom:14px; display:flex; justify-content:space-between; align-items:center;">
+            <div style="color:#ffffff; font-size:13px; font-weight:700;">
+                <span style="color:#38bdf8;">• AI 추론 및 연동 상태:</span> 출하성적서 다국어 파싱 ➔ 도면 한계공차 추론 ➔ 메일 초안 자율 생성
+            </div>
+            <div>{ai_engine_badge}</div>
+        </div>
+        """, unsafe_allow_html=True)
 
         col_pdf, col_meta = st.columns([1.1, 1.0])
 
@@ -977,11 +1000,19 @@ if "1. 성적서" in nav_menu:
 
         if need_rebuild:
             with st.spinner(f"AI가 [{selected_lang}] 기준으로 비즈니스 통보문 및 공문을 실시간 작성 중입니다..."):
+                gemini_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY") or ""
+                try:
+                    if not gemini_key and "GEMINI_API_KEY" in st.secrets:
+                        gemini_key = st.secrets["GEMINI_API_KEY"]
+                except Exception:
+                    pass
+
                 mail_result = EmailDrafter.draft_email_with_gemini(
                     parsed_data=parsed,
                     eval_result=evaluated,
                     language=selected_lang,
-                    custom_instructions=custom_note
+                    custom_instructions=custom_note,
+                    api_key=gemini_key
                 )
                 st.session_state.draft_mail_result = mail_result
                 st.session_state.draft_lang_used = selected_lang
