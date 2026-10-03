@@ -35,7 +35,7 @@ APP_PNG_PATH = os.path.join(PROJECT_ROOT, "app_icon.png")
 # 페이지 설정
 st.set_page_config(
     page_title="칼퇴보증 : 성적서 분석 에이전트",
-    page_icon="🛡️",
+    page_icon="",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -111,17 +111,17 @@ li[role="option"], li[role="option"] * {
 """, unsafe_allow_html=True)
 
 # 세션 상태 초기화
-if "analysis_done" not in st.session_state:
+if "analysis_done"not in st.session_state:
     st.session_state.analysis_done = False
-if "parsed_data" not in st.session_state:
+if "parsed_data"not in st.session_state:
     st.session_state.parsed_data = None
-if "eval_result" not in st.session_state:
+if "eval_result"not in st.session_state:
     st.session_state.eval_result = None
-if "active_file_path" not in st.session_state:
+if "active_file_path"not in st.session_state:
     st.session_state.active_file_path = None
-if "approval_status" not in st.session_state:
+if "approval_status"not in st.session_state:
     st.session_state.approval_status = "결재 대기"
-if "mail_sent" not in st.session_state:
+if "mail_sent"not in st.session_state:
     st.session_state.mail_sent = False
 
 # =============================================================
@@ -130,7 +130,7 @@ if "mail_sent" not in st.session_state:
 with st.sidebar:
     # 1. 브랜드 & 시스템 상태
     with st.container(border=True):
-        st.subheader("🛡️ Q-Report Agent")
+        st.subheader("Q-Report Agent")
         st.caption("칼퇴보증 팀 | 제조 AX 품질 감사 AI")
         if st.session_state.get("analysis_done"):
             st.success("● 상태: AUDIT_COMPLETE (분석 완료)")
@@ -138,7 +138,7 @@ with st.sidebar:
             st.info("● 상태: IDLE (시스템 준비 완료)")
 
     # 2. 메뉴 네비게이션
-    st.markdown("### 📋 메뉴 네비게이션")
+    st.markdown("### 메뉴 네비게이션")
     nav_menu = st.radio(
         "화면 바로가기",
         [
@@ -154,7 +154,7 @@ with st.sidebar:
     st.divider()
 
     # 3. 에이전트 컨트롤 패널
-    st.markdown("### ⚙️ 에이전트 컨트롤")
+    st.markdown("###  에이전트 컨트롤")
     with st.container(border=True):
         aql_mode = st.selectbox(
             "• AQL 검사 엄격도 (ISO 2859-1)",
@@ -177,7 +177,7 @@ with st.sidebar:
     st.divider()
 
     # 4. 인프라 연동 상태 모니터 (한 줄 정렬 및 작은 폰트)
-    st.markdown("### 🛰️ 인프라 연동 상태")
+    st.markdown("###  인프라 연동 상태")
     with st.container(border=True):
         st.markdown(
             """
@@ -205,20 +205,20 @@ with st.sidebar:
 with st.container(border=True):
     col_h1, col_h2 = st.columns([3, 1])
     with col_h1:
-        st.title("🛡️ [칼퇴보증] 성적서 자동 판정 시스템 (COA-Guard)")
+        st.title("[칼퇴보증] 성적서 자동 판정 시스템 (COA-Guard)")
         st.write("글로벌 가전 완제품 출하검사성적서 다국어 자동 판독 & 표준 NCR 자율 발행 시스템")
     with col_h2:
         st.info("경남 제조 AI·AX 플랫폼")
 
 # 프로세스 안내
-st.caption("📌 프로세스: 1 문서 수집/업로드 ➔ 2 광학/텍스트 추출 ➔ 3 사내 도면 스펙 매칭 ➔ 4 ISO 2859-1 공차 판정 ➔ 5 AI 위험도 진단 ➔ 6 표준 NCR 자동 발행 ➔ 7 이력 및 ROI 관제")
+st.caption("프로세스: 1 문서 수집/업로드 2 광학/텍스트 추출 3 사내 도면 스펙 매칭 4 ISO 2859-1 공차 판정 5 AI 위험도 진단 6 표준 NCR 자동 발행 7 이력 및 ROI 관제")
 
 # =============================================================
 # [화면 1] 성적서 자율 판독
 # =============================================================
-if "1. 성적서" in nav_menu:
+if "1. 성적서"in nav_menu:
     with st.container(border=True):
-        st.subheader("📥 [1] 완제품 출하검사 성적서 (Final Inspection Report) 입력")
+        st.subheader("[1] 완제품 출하검사 성적서 (Final Inspection Report) 입력")
 
         # 실제 성적서 DB 자동 스캔 (업체별데이터 41건 + sample_coas 8건)
         report_files = []
@@ -242,7 +242,7 @@ if "1. 성적서" in nav_menu:
         uploaded_file = None
 
         with col_up:
-            st.markdown("**📂 신규 성적서 드래그 앤 드롭 업로드 (PDF / 이미지)**")
+            st.markdown("** 신규 성적서 드래그 앤 드롭 업로드 (PDF / 이미지)**")
             uploaded_file = st.file_uploader(
                 "공급사 제출 검사성적서 파일 드래그 & 드롭",
                 type=["pdf", "png", "jpg", "xlsx"],
@@ -250,7 +250,7 @@ if "1. 성적서" in nav_menu:
             )
 
         with col_db:
-            st.markdown(f"**📚 실제 협력사 출하 성적서 DB에서 즉시 선택 (총 {len(report_files)}건)**")
+            st.markdown(f"** 실제 협력사 출하 성적서 DB에서 즉시 선택 (총 {len(report_files)}건)**")
             if report_files:
                 sample_vendor_cats = [
                     "전체 협력사 통합 보기",
@@ -270,7 +270,7 @@ if "1. 성적서" in nav_menu:
                         filtered_files = [r for r in report_files if any(k in r[0] for k in ["BL-E01", "HOTOEM", "01_Injection"])]
                     elif v_key == "MYLUX":
                         filtered_files = [r for r in report_files if any(k in r[0] for k in ["BL-D01", "BL-C01", "MYLUX", "02_Injection", "03_Motor"])]
-                    elif "크리스탈" in v_key:
+                    elif "크리스탈"in v_key:
                         filtered_files = [r for r in report_files if any(k in r[0] for k in ["TM-HB1", "크리스탈", "04_Silicone", "07_Haier"])]
                     if not filtered_files:
                         filtered_files = report_files
@@ -284,7 +284,7 @@ if "1. 성적서" in nav_menu:
 
         btn_col1, btn_col2, btn_col3 = st.columns([1.5, 1, 1])
         with btn_col1:
-            analyze_btn = st.button("🚀 AI 출하검사 성적서 자동 감사 시작", type="primary", use_container_width=True)
+            analyze_btn = st.button("AI 출하검사 성적서 자동 감사 시작", type="primary", use_container_width=True)
 
     # 분석 실행 로직
     if analyze_btn:
@@ -301,14 +301,14 @@ if "1. 성적서" in nav_menu:
 
         if file_to_parse:
             step_logs = [
-                ("🔍 [Agent Thought 1/5] 바이너리 스트림 로드 및 레이아웃 구조 분석", "🛠️ [Tool Exec] Document Layout Analyzer & RapidOCR", f"성적서 파일 `{os.path.basename(file_to_parse)}`의 고해상도 벡터 객체와 폰트 레이어를 분해하여 테이블 좌표계를 매핑합니다.", 1.8),
-                ("🌐 [Agent Thought 2/5] 다국어(한/영/중) 표 데이터 정밀 디지털화", "🛠️ [Tool Exec] Multi-lingual OCR & Regular Expression Parser", "제조사별 비정형 표(중국어 규격치, 영문 측정값, 검사 번호)를 파싱하여 표준 검사항목 데이터셋으로 변환합니다.", 2.2),
-                ("📐 [Agent Thought 3/5] 사내 도면 마스터 DB 및 품질 기준서 매핑", "🛠️ [Tool Exec] Internal Spec Database Matcher (`internal_part_spec_master.json`)", "추출된 협력사 및 모델명을 기반으로 사내 품질 한계선(도면 상하한선 LSL/USL)과 검사 기준서를 동기화합니다.", 1.8),
-                ("⚖️ [Agent Thought 4/5] 통계적 공차 편차(Delta) 및 ISO 2859-1 AQL 판정 추론", "🛠️ [Tool Exec] Engineering Tolerance Engine & AQL Evaluator", "각 검사항목별 실측 오차, 단방향 공차 보정값, Cpk 공정능력 지수 및 로트 샘플링 판정(Ac/Re)을 정밀 연산합니다.", 2.4),
-                ("📝 [Agent Thought 5/5] 종합 품질 감사 확정 및 행정 문서(NCR/초안) 자율 생성", "🛠️ [Tool Exec] Quality Governance Builder & Multi-language Drafter", "최종 합/불 판정을 영구 감사 DB에 기록하고, 한/중/영 3개국어 표준 통보문 및 부적합 조치서를 자율 빌드합니다.", 1.8)
+                ("[Agent Thought 1/5] 바이너리 스트림 로드 및 레이아웃 구조 분석", "[Tool Exec] Document Layout Analyzer & RapidOCR", f"성적서 파일 `{os.path.basename(file_to_parse)}`의 고해상도 벡터 객체와 폰트 레이어를 분해하여 테이블 좌표계를 매핑합니다.", 1.8),
+                ("[Agent Thought 2/5] 다국어(한/영/중) 표 데이터 정밀 디지털화", "[Tool Exec] Multi-lingual OCR & Regular Expression Parser", "제조사별 비정형 표(중국어 규격치, 영문 측정값, 검사 번호)를 파싱하여 표준 검사항목 데이터셋으로 변환합니다.", 2.2),
+                ("[Agent Thought 3/5] 사내 도면 마스터 DB 및 품질 기준서 매핑", "[Tool Exec] Internal Spec Database Matcher (`internal_part_spec_master.json`)", "추출된 협력사 및 모델명을 기반으로 사내 품질 한계선(도면 상하한선 LSL/USL)과 검사 기준서를 동기화합니다.", 1.8),
+                ("[Agent Thought 4/5] 통계적 공차 편차(Delta) 및 ISO 2859-1 AQL 판정 추론", "[Tool Exec] Engineering Tolerance Engine & AQL Evaluator", "각 검사항목별 실측 오차, 단방향 공차 보정값, Cpk 공정능력 지수 및 로트 샘플링 판정(Ac/Re)을 정밀 연산합니다.", 2.4),
+                ("[Agent Thought 5/5] 종합 품질 감사 확정 및 행정 문서(NCR/초안) 자율 생성", "[Tool Exec] Quality Governance Builder & Multi-language Drafter", "최종 합/불 판정을 영구 감사 DB에 기록하고, 한/중/영 3개국어 표준 통보문 및 부적합 조치서를 자율 빌드합니다.", 1.8)
             ]
 
-            with st.status("🤖 AI Agent가 자율 추론(Thought) 및 다단계 검사 도구(Tools)를 정밀 실행 중입니다... (약 10초 소요)", expanded=True) as status:
+            with st.status("AI Agent가 자율 추론(Thought) 및 다단계 검사 도구(Tools)를 정밀 실행 중입니다... (약 10초 소요)", expanded=True) as status:
                 progress_bar = st.progress(0, text="AI 에이전트 파이프라인 초기화 중...")
                 for idx, (thought, tool, desc, duration) in enumerate(step_logs):
                     pct = int(((idx + 1) / len(step_logs)) * 100)
@@ -322,13 +322,13 @@ if "1. 성적서" in nav_menu:
                 DEFAULT_KEY = base64.b64decode("QVEuQWI4Uk42TFRqNHpLRjVUYmk2VHlNM2JqSFFsY2x5cEFaRGtXSUF3M2ROVmhVYWs3R0E=").decode("utf-8")
                 gemini_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY") or DEFAULT_KEY
                 try:
-                    if "GEMINI_API_KEY" in getattr(st, 'secrets', {}):
+                    if "GEMINI_API_KEY"in getattr(st, 'secrets', {}):
                         gemini_key = st.secrets["GEMINI_API_KEY"]
                 except Exception:
                     pass
 
-                use_gemini = ("Gemini" in engine_choice) and bool(gemini_key)
-                parser_provider = "Google Gemini" if use_gemini else "로컬 룰베이스"
+                use_gemini = ("Gemini"in engine_choice) and bool(gemini_key)
+                parser_provider = "Google Gemini"if use_gemini else "로컬 룰베이스"
                 parser = InspectionReportParser(provider=parser_provider, api_key=gemini_key)
                 evaluator = ToleranceEvaluator()
                 parsed = parser.parse_file(file_to_parse)
@@ -340,7 +340,7 @@ if "1. 성적서" in nav_menu:
                 st.session_state.analysis_done = True
                 st.session_state.approval_status = "결재 대기"
                 st.session_state.mail_sent = False
-                status.update(label="✅ [정상] AI Agent의 판단 및 모든 도구 실행(Tool Execution)이 성공적으로 완료되었습니다!", state="complete", expanded=False)
+                status.update(label="[정상] AI Agent의 판단 및 모든 도구 실행(Tool Execution)이 성공적으로 완료되었습니다!", state="complete", expanded=False)
 
                 # 영구 감사 이력 DB 자동 적재 및 구글 시트 실시간 연동
                 audit_mgr = AuditManager()
@@ -351,9 +351,9 @@ if "1. 성적서" in nav_menu:
                     sheet_url = cfg.get("sheet_url", "")
                     ok, msg = audit_mgr.sync_to_google_sheet(saved_entry, cfg["webhook_url"])
                     if ok:
-                        st.toast("📊 검사 결과가 전사 구글 스프레드시트에 즉시 자동 동기화되었습니다!", icon="✅")
+                        st.toast("검사 결과가 전사 구글 스프레드시트에 즉시 자동 동기화되었습니다!", icon="")
                     else:
-                        st.toast(f"⚠️ 구글 시트 동기화 주의: {msg}", icon="⚠️")
+                        st.toast(f"구글 시트 동기화 주의: {msg}", icon="")
 
     # [결과 화면]
     if st.session_state.analysis_done and st.session_state.parsed_data and st.session_state.eval_result:
@@ -364,16 +364,16 @@ if "1. 성적서" in nav_menu:
 
         # [1] 시각적 대조 (Split View)
         with st.container(border=True):
-            st.subheader("🔍 [시각적 대조] 원본 성적서 vs AI 정밀 추출 결과 (Split View)")
-            if "Gemini" in engine_choice:
-                st.info("● AI 추론 엔진: Google Gemini 2.5 Multi-modal Live Connected | 출하성적서 다국어 파싱 ➔ 도면 한계공차 추론 ➔ 메일 초안 자율 생성")
+            st.subheader("[시각적 대조] 원본 성적서 vs AI 정밀 추출 결과 (Split View)")
+            if "Gemini"in engine_choice:
+                st.info("● AI 추론 엔진: Google Gemini 2.5 Multi-modal Live Connected | 출하성적서 다국어 파싱 도면 한계공차 추론 메일 초안 자율 생성")
             else:
                 st.success("● AI 추론 엔진: 로컬 룰베이스 & RapidOCR 무인 연동 중")
 
             col_pdf, col_meta = st.columns([1.1, 1.0])
 
             with col_pdf:
-                st.markdown("**📄 원본 출하검사 성적서 실시간 뷰어**")
+                st.markdown("** 원본 출하검사 성적서 실시간 뷰어**")
                 active_path = st.session_state.active_file_path
                 rendered_ok = False
                 if active_path and os.path.exists(active_path):
@@ -386,7 +386,7 @@ if "1. 성적서" in nav_menu:
                                 zoom_matrix = fitz.Matrix(2.0, 2.0)
                                 pix = page.get_pixmap(matrix=zoom_matrix)
                                 img_bytes = pix.tobytes("png")
-                                st.image(img_bytes, caption=f"📄 {os.path.basename(active_path)} (원본 1페이지 고화질 프리뷰)", use_container_width=True)
+                                st.image(img_bytes, caption=f" {os.path.basename(active_path)} (원본 1페이지 고화질 프리뷰)", use_container_width=True)
                                 rendered_ok = True
                         except Exception:
                             pass
@@ -396,7 +396,7 @@ if "1. 성적서" in nav_menu:
 
                     with open(active_path, "rb") as f_down:
                         st.download_button(
-                            label="📥 원본 성적서 파일 다운로드 (PDF)",
+                            label="원본 성적서 파일 다운로드 (PDF)",
                             data=f_down.read(),
                             file_name=os.path.basename(active_path),
                             mime="application/pdf",
@@ -406,7 +406,7 @@ if "1. 성적서" in nav_menu:
                     st.info("선택된 성적서 파일이 안전하게 분석되었습니다.")
 
             with col_meta:
-                st.markdown("**⚙️ AI 문서 추출 및 사내 스펙 연동**")
+                st.markdown("** AI 문서 추출 및 사내 스펙 연동**")
                 with st.container(border=True):
                     c_m1, c_m2 = st.columns(2)
                     c_m1.metric("제조 협력사", evaluated.get('supplier', '-'))
@@ -420,11 +420,11 @@ if "1. 성적서" in nav_menu:
                     c_m5.metric("적용 검사 기준서", evaluated.get('inspection_spec_no', '-'))
                     c_m6.metric("문서 추출 신뢰도", f"{parsed.get('confidence', 96.8)}%")
 
-                st.success(f"✅ [도면 매칭 완료] 품번 **{evaluated.get('model_code')}** ({evaluated.get('product_name')})의 공차 마스터 DB와 100% 매핑되었습니다.")
+                st.success(f"[도면 매칭 완료] 품번 **{evaluated.get('model_code')}** ({evaluated.get('product_name')})의 공차 마스터 DB와 100% 매핑되었습니다.")
 
         # [2] 시험항목별 정밀 공차 판정표
         with st.container(border=True):
-            st.subheader("📋 [4] 시험항목별 정밀 공차 판정표 (ISO 2859-1)")
+            st.subheader("[4] 시험항목별 정밀 공차 판정표 (ISO 2859-1)")
             items = evaluated.get("evaluation_items", [])
             if items:
                 df_items = pd.DataFrame(items)
@@ -440,7 +440,7 @@ if "1. 성적서" in nav_menu:
 
         # [3] 제조 공학 규격 및 Cpk 공정능력 시각화 (Plotly)
         with st.container(border=True):
-            st.subheader("📊 [제조 품질 공학] 공차 상/하한선(LSL·USL) 및 실측치 정밀 분포 차트")
+            st.subheader("[제조 품질 공학] 공차 상/하한선(LSL·USL) 및 실측치 정밀 분포 차트")
 
             def _is_number(v):
                 try:
@@ -481,7 +481,7 @@ if "1. 성적서" in nav_menu:
                         fig.add_vline(x=usl, line_width=2, line_dash="dash", line_color="#ef4444", annotation_text=f"USL ({usl}{unit})")
                         fig.add_vline(x=nominal, line_width=2, line_dash="dot", line_color="#38bdf8", annotation_text=f"기준치 ({nominal}{unit})")
 
-                        val_color = "#22c55e" if target_it["status"] == "PASS" else "#ef4444"
+                        val_color = "#22c55e"if target_it["status"] == "PASS"else "#ef4444"
                         fig.add_trace(go.Scatter(
                             x=[val], y=[max(y_vals)*0.7],
                             mode='markers+text',
@@ -505,20 +505,20 @@ if "1. 성적서" in nav_menu:
         col_diag1, col_diag2 = st.columns(2)
         with col_diag1:
             with st.container(border=True):
-                st.subheader("🛡️ [5] AI 종합 위험도 진단")
+                st.subheader("[5] AI 종합 위험도 진단")
                 c_d1, c_d2 = st.columns(2)
                 c_d1.metric("종합 판정", verdict)
-                risk_level = "LOW" if is_pass else "HIGH"
+                risk_level = "LOW"if is_pass else "HIGH"
                 c_d2.metric("위험 수준", risk_level)
 
                 if is_pass:
-                    st.success("✅ [정상] 모든 검사 항목 및 공차가 사내 규격을 만족합니다. 완제품 출하 승인 및 입고 가결 처리를 진행하십시오.")
+                    st.success("[정상] 모든 검사 항목 및 공차가 사내 규격을 만족합니다. 완제품 출하 승인 및 입고 가결 처리를 진행하십시오.")
                 else:
-                    st.error("🚨 [경고] 규격 이탈 및 결함 확인: 공차 기준치를 초과한 항목이 확인되었습니다. 출하/입고를 즉시 보류하고 협력사에 표준 NCR을 발행하십시오.")
+                    st.error("[경고] 규격 이탈 및 결함 확인: 공차 기준치를 초과한 항목이 확인되었습니다. 출하/입고를 즉시 보류하고 협력사에 표준 NCR을 발행하십시오.")
 
         with col_diag2:
             with st.container(border=True):
-                st.subheader("⚡ [6] AI 권고 후속조치 워크플로우")
+                st.subheader("[6] AI 권고 후속조치 워크플로우")
                 if is_pass:
                     st.write("**1. 출하 승인 등록** : ERP/MES에 검사 합격 정보 즉시 반영")
                     st.write("**2. 품질 이력 아카이빙** : 정상 입고 성적서 DB 영구 저장")
@@ -526,11 +526,11 @@ if "1. 성적서" in nav_menu:
                     st.write("**1. 출하/입고 보류** : 불합격 로트 자동 입고 락(Lock) 처리")
                     st.write("**2. 표준 NCR 통보서 자동 생성** : 협력사 대상 즉시 이메일 발송")
                     st.write("**3. 3영업일 내 8D 대책서 요구** : 원인분석(5-Why) 제출 필수")
-                    st.write("**4. 차기 로트 검사 수준 격상** : ISO 2859 보통검사 ➔ 강화검사(Tightened)")
+                    st.write("**4. 차기 로트 검사 수준 격상** : ISO 2859 보통검사 강화검사(Tightened)")
 
         # [5] 다국어 공식 통보 초안 생성
         with st.container(border=True):
-            st.subheader("✉️ [성적서 검토 결과 다국어 공식 통보 초안] 한국어 · 중국어 · 영어 실시간 번역 및 발행")
+            st.subheader("[성적서 검토 결과 다국어 공식 통보 초안] 한국어 · 중국어 · 영어 실시간 번역 및 발행")
             st.caption("완제품 출하검사 판정 결과를 기반으로 글로벌 협력사(중국·동남아·미주 등) 맞춤형 공식 비즈니스 통보문/메일 초안을 3개 국어로 자동 생성합니다.")
 
             col_mail_opt1, col_mail_opt2 = st.columns([1.2, 1.8])
@@ -550,21 +550,21 @@ if "1. 성적서" in nav_menu:
 
             custom_note = st.text_input("추가 품질 지시사항 (선택사항, 예: 긴급 회신 기한, 대체 로트 선별 일정 등)", placeholder="예: 2차 시료 추가 검사 요청 및 24시간 이내 선별 인원 투입 일정 회신 요망", key="custom_mail_note")
 
-            btn_generate = st.button("📝 성적서 검토 결과 다국어 통보문 / 메일 초안 실시간 생성", type="primary", use_container_width=True)
+            btn_generate = st.button("성적서 검토 결과 다국어 통보문 / 메일 초안 실시간 생성", type="primary", use_container_width=True)
 
             need_rebuild = False
             if btn_generate:
                 need_rebuild = True
-            elif "draft_lang_used" in st.session_state and st.session_state.draft_lang_used != selected_lang:
+            elif "draft_lang_used"in st.session_state and st.session_state.draft_lang_used != selected_lang:
                 need_rebuild = True
-            elif "draft_mail_result" not in st.session_state or not st.session_state.draft_mail_result:
+            elif "draft_mail_result"not in st.session_state or not st.session_state.draft_mail_result:
                 need_rebuild = True
 
             if need_rebuild:
                 with st.spinner(f"AI가 [{selected_lang}] 기준으로 비즈니스 통보문 및 공문을 실시간 작성 중입니다..."):
                     gemini_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY") or ""
                     try:
-                        if not gemini_key and "GEMINI_API_KEY" in st.secrets:
+                        if not gemini_key and "GEMINI_API_KEY"in st.secrets:
                             gemini_key = st.secrets["GEMINI_API_KEY"]
                     except Exception:
                         pass
@@ -599,26 +599,26 @@ if "1. 성적서" in nav_menu:
                 col_mb1, col_mb2 = st.columns([1.5, 1])
                 with col_mb1:
                     st.download_button(
-                        label="📥 통보문 텍스트 파일(.txt) 다운로드",
+                        label="통보문 텍스트 파일(.txt) 다운로드",
                         data=f"제목: {cur_draft.get('subject', '')}\n\n{edited_body}",
                         file_name=f"품질통보_{evaluated.get('model_code')}_{selected_lang.split()[0]}.txt",
                         mime="text/plain",
                         use_container_width=True
                     )
                 with col_mb2:
-                    if st.button("📧 협력사 품질팀 메일 클라이언트 연동 (mailto:)", use_container_width=True):
+                    if st.button("협력사 품질팀 메일 클라이언트 연동 (mailto:)", use_container_width=True):
                         st.success("메일 프로그램 연동 클립보드가 복사 준비되었습니다.")
 
         # [6] 표준 부적합 통보서 (NCR)
         with st.container(border=True):
-            st.subheader("📑 [7] 표준 부적합 통보서 (NCR / 8D Report)")
+            st.subheader("[7] 표준 부적합 통보서 (NCR / 8D Report)")
             html_report = NCRGenerator.generate_ncr_html(parsed, evaluated)
             md_report = NCRGenerator.generate_ncr_markdown(parsed, evaluated)
 
             col_dl1, col_dl2 = st.columns(2)
             with col_dl1:
                 st.download_button(
-                    label="📄 공식 NCR 보고서 다운로드 (HTML 양식)",
+                    label="공식 NCR 보고서 다운로드 (HTML 양식)",
                     data=html_report,
                     file_name=f"NCR_{evaluated.get('model_code')}_{parsed.get('report_no', 'QA01').replace('/', '_')}.html",
                     mime="text/html",
@@ -627,7 +627,7 @@ if "1. 성적서" in nav_menu:
                 )
             with col_dl2:
                 st.download_button(
-                    label="📋 텍스트/마크다운 NCR 복사본 다운로드",
+                    label="텍스트/마크다운 NCR 복사본 다운로드",
                     data=md_report,
                     file_name=f"NCR_{evaluated.get('model_code')}.md",
                     mime="text/markdown",
@@ -640,9 +640,9 @@ if "1. 성적서" in nav_menu:
 # =============================================================
 # [화면 2] 협력사 품질 분석
 # =============================================================
-if "2. 협력사" in nav_menu:
+if "2. 협력사"in nav_menu:
     with st.container(border=True):
-        st.subheader("🏭 [협력사 품질 분석] 글로벌 공급망 품질 등급 및 누적 성적서 관제")
+        st.subheader("[협력사 품질 분석] 글로벌 공급망 품질 등급 및 누적 성적서 관제")
 
         audit_mgr_v = AuditManager()
         all_v_history = audit_mgr_v.load_all()
@@ -692,9 +692,9 @@ if "2. 협력사" in nav_menu:
 # =============================================================
 # [화면 3] 과거 이력 & 잠재 위험 분석
 # =============================================================
-if "3. 과거 이력" in nav_menu:
+if "3. 과거 이력"in nav_menu:
     with st.container(border=True):
-        st.subheader("📈 [과거 이력 & 잠재 위험 분석] 전수 감사 로그 아카이빙 및 ROI")
+        st.subheader("[과거 이력 & 잠재 위험 분석] 전수 감사 로그 아카이빙 및 ROI")
 
         audit_mgr_h = AuditManager()
         kpi_h = audit_mgr_h.get_summary_kpis()
@@ -716,9 +716,9 @@ if "3. 과거 이력" in nav_menu:
 # =============================================================
 # [화면 4] 전사 동기화 (google Sheet)
 # =============================================================
-if "4. 전사 동기화" in nav_menu:
+if "4. 전사 동기화"in nav_menu:
     with st.container(border=True):
-        st.subheader("🌐 [전사 동기화] 클라우드 구글 스프레드시트 전사 실시간 대시보드")
+        st.subheader("[전사 동기화] 클라우드 구글 스프레드시트 전사 실시간 대시보드")
 
         sheet_mgr = AuditManager()
         webhook_url, sheet_url = get_sheet_config()
@@ -727,7 +727,7 @@ if "4. 전사 동기화" in nav_menu:
 
         c_sync1, c_sync2 = st.columns([1.5, 2.5])
         with c_sync1:
-            if st.button("🔄 구글 스프레드시트 전수 강제 동기화", type="primary", use_container_width=True):
+            if st.button("구글 스프레드시트 전수 강제 동기화", type="primary", use_container_width=True):
                 with st.spinner("구글 스프레드시트로 전체 감사 로그를 전송 중입니다..."):
                     cnt, msg = sheet_mgr.sync_all_to_google_sheet(webhook_url)
                     if cnt > 0:
@@ -759,7 +759,7 @@ if "4. 전사 동기화" in nav_menu:
             st.markdown(f"**구글 드라이브 원본 주소:** `{sheet_url}`")
             st.caption("※ 구글 보안 정책과 관계없이 위의 실시간 표 및 우측 버튼을 통해 항상 정상 확인하실 수 있습니다.")
         with col_link2:
-            st.link_button("🔗 새 창에서 구글 시트 전체 화면 열기", sheet_url, use_container_width=True)
+            st.link_button("새 창에서 구글 시트 전체 화면 열기", sheet_url, use_container_width=True)
 
         with st.expander("구글 스프레드시트 URL 및 웹훅 주소 변경"):
             new_sheet_url = st.text_input("구글 스프레드시트 공유/게시 URL", value=sheet_url, key="input_sheet_url")
