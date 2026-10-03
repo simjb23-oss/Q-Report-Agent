@@ -176,26 +176,28 @@ with st.sidebar:
 
     st.divider()
 
-    # 4. 인프라 연동 상태 모니터 (순정 Streamlit 컨테이너 및 뱃지)
+    # 4. 인프라 연동 상태 모니터 (한 줄 정렬 및 작은 폰트)
     st.markdown("### 🛰️ 인프라 연동 상태")
     with st.container(border=True):
-        col_inf1, col_inf2 = st.columns([1.4, 1.0])
-        with col_inf1:
-            st.write("RapidOCR Engine")
-        with col_inf2:
-            st.success("Active")
-
-        col_inf3, col_inf4 = st.columns([1.4, 1.0])
-        with col_inf3:
-            st.write("Cloud Webhook")
-        with col_inf4:
-            st.success("Synced")
-
-        col_inf5, col_inf6 = st.columns([1.4, 1.0])
-        with col_inf5:
-            st.write("Memory Cache")
-        with col_inf6:
-            st.info("24 Cases")
+        st.markdown(
+            """
+            <div style="font-size: 0.8rem; line-height: 1.6;">
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 3px 0; border-bottom: 1px solid rgba(255,255,255,0.08);">
+                    <span style="color: #94A3B8;">RapidOCR Engine</span>
+                    <span style="color: #34D399; font-weight: 700; background: rgba(16,185,129,0.15); padding: 1px 7px; border-radius: 4px; font-size: 0.72rem;">Active</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 3px 0; border-bottom: 1px solid rgba(255,255,255,0.08);">
+                    <span style="color: #94A3B8;">Cloud Webhook</span>
+                    <span style="color: #34D399; font-weight: 700; background: rgba(16,185,129,0.15); padding: 1px 7px; border-radius: 4px; font-size: 0.72rem;">Synced</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 3px 0;">
+                    <span style="color: #94A3B8;">Memory Cache</span>
+                    <span style="color: #60A5FA; font-weight: 700; background: rgba(59,130,246,0.15); padding: 1px 7px; border-radius: 4px; font-size: 0.72rem;">24 Cases</span>
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
 # =============================================================
 # [메인 헤더] 순정 Streamlit 구성
