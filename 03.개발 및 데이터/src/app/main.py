@@ -88,7 +88,7 @@ with st.sidebar:
     # [블록 2] 메뉴 네비게이션
     # -------------------------------------------------------------
     st.markdown("""
-    <div style="font-size:13px; font-weight:800; color:#0f172a; margin-bottom:6px;">
+    <div class="sb-title-label" style="font-size:13px; font-weight:800; margin-bottom:6px;">
         [메뉴 네비게이션]
     </div>
     """, unsafe_allow_html=True)
@@ -109,7 +109,7 @@ with st.sidebar:
     # [블록 3] 에이전트 컨트롤 패널
     # -------------------------------------------------------------
     st.markdown("""
-    <div style="font-size:13px; font-weight:800; color:#0f172a; margin-bottom:10px;">
+    <div class="sb-title-label" style="font-size:13px; font-weight:800; margin-bottom:10px;">
         [에이전트 컨트롤 패널]
     </div>
     """, unsafe_allow_html=True)
@@ -150,7 +150,7 @@ with st.sidebar:
     # [블록 4] UI/UX 테마 및 색상 스타일 설정
     # -------------------------------------------------------------
     st.markdown('''
-    <div style="font-size:13px; font-weight:800; color:#0f172a; margin-top:14px; margin-bottom:6px;">
+    <div class="sb-title-label" style="font-size:13px; font-weight:800; margin-top:14px; margin-bottom:6px;">
         [UI/UX 테마 스타일]
     </div>
     ''', unsafe_allow_html=True)
@@ -168,10 +168,10 @@ with st.sidebar:
     # [블록 5] 인프라 연동 상태 모니터 (줄바꿈/짤림 방지 최적화)
     # -------------------------------------------------------------
     st.markdown("""
-    <div style="font-size:13px; font-weight:800; color:#0f172a; margin-bottom:8px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+    <div class="sb-title-label" style="font-size:13px; font-weight:800; margin-bottom:8px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
         [인프라 연동 상태 모니터]
     </div>
-    <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:12px 14px; font-size:12px; line-height:1.6;">
+    <div class="sb-info-card" style="border-radius:10px; padding:12px 14px; font-size:12px; line-height:1.6;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; white-space:nowrap; gap:6px;">
             <span style="color:#475569; font-weight:600; white-space:nowrap;">• RapidOCR Engine:</span>
             <span style="font-weight:700; color:#15803d; background:#dcfce7; padding:2px 7px; border-radius:4px; border:1px solid #86efac; white-space:nowrap; font-size:11px;">Active</span>
@@ -198,6 +198,11 @@ if theme_choice == "모던 네이비 (엔지니어링)":
     t_text = "#f1f5f9"
     t_subtext = "#94a3b8"
     t_box_bg = "#1b2a47"
+    sb_bg = "#0f172a"
+    sb_text = "#f8fafc"
+    sb_subtext = "#cbd5e1"
+    sb_card_bg = "#1e293b"
+    sb_card_border = "#334155"
 elif theme_choice == "다크 모드 (고대비/야간)":
     t_bg = "#090d16"
     t_card_bg = "#111827"
@@ -205,13 +210,24 @@ elif theme_choice == "다크 모드 (고대비/야간)":
     t_text = "#f9fafb"
     t_subtext = "#9ca3af"
     t_box_bg = "#1f2937"
+    sb_bg = "#111827"
+    sb_text = "#ffffff"
+    sb_subtext = "#9ca3af"
+    sb_card_bg = "#1f2937"
+    sb_card_border = "#374151"
 else:
+    # 클린 라이트 모드 (시인성 극대화 화이트 & 슬레이트)
     t_bg = "#f8fafc"
     t_card_bg = "#ffffff"
     t_card_border = "#e2e8f0"
     t_text = "#0f172a"
-    t_subtext = "#64748b"
+    t_subtext = "#475569"
     t_box_bg = "#f8fafc"
+    sb_bg = "#ffffff"
+    sb_text = "#0f172a"
+    sb_subtext = "#334155"
+    sb_card_bg = "#f1f5f9"
+    sb_card_border = "#cbd5e1"
 
 # 1. 테마별 동적 오버라이드 CSS
 st.markdown(f"""
@@ -236,6 +252,28 @@ st.markdown(f"""
     }}
     .field-label {{
         color: {t_subtext} !important;
+    }}
+
+    /* 사이드바 가독성 & 대비 강제 최적화 */
+    [data-testid="stSidebar"] {{
+        background-color: {sb_bg} !important;
+        border-right: 1px solid {sb_card_border} !important;
+    }}
+    [data-testid="stSidebar"] * {{
+        color: {sb_text} !important;
+    }}
+    [data-testid="stSidebar"] hr {{
+        border-color: {sb_card_border} !important;
+    }}
+    .sb-title-label {{
+        color: {sb_text} !important;
+    }}
+    .sb-item-label {{
+        color: {sb_subtext} !important;
+    }}
+    .sb-info-card {{
+        background-color: {sb_card_bg} !important;
+        border: 1px solid {sb_card_border} !important;
     }}
 </style>
 """, unsafe_allow_html=True)
