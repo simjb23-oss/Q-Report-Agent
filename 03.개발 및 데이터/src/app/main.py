@@ -878,7 +878,19 @@ if "1. 성적서" in nav_menu:
         # [WOW 요소 [2]] 제조 공학 규격 및 Cpk 공정능력 시각화 (Plotly)
         st.markdown('<div class="section-card"><div class="section-title"> [제조 품질 공학] 공차 상/하한선(LSL·USL) 및 실측치 정밀 분포 차트</div>', unsafe_allow_html=True)
 
-        dim_items = [it for it in items if isinstance(it.get("min_limit"), (int, float)) and isinstance(it.get("max_limit"), (int, float))]
+        def _is_number(v):
+            try:
+                float(v)
+                return True
+            except (ValueError, TypeError):
+                return False
+
+        dim_items = [
+            it for it in items 
+            if isinstance(it.get("min_limit"), (int, float)) 
+            and isinstance(it.get("max_limit"), (int, float))
+            and _is_number(it.get("measured"))
+        ]
         if dim_items:
             tab_names = [it["item_name"] for it in dim_items]
             tabs = st.tabs(tab_names)
