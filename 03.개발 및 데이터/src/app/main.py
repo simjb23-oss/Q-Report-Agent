@@ -213,14 +213,9 @@ else:
     t_subtext = "#64748b"
     t_box_bg = "#f8fafc"
 
+# 1. 테마별 동적 오버라이드 CSS
 st.markdown(f"""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700;800&display=swap');
-    
-    html, body, [class*="css"] {{
-        font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
-    }}
-
     .stApp {{
         background-color: {t_bg} !important;
     }}
@@ -242,6 +237,17 @@ st.markdown(f"""
     .field-label {{
         color: {t_subtext} !important;
     }}
+</style>
+""", unsafe_allow_html=True)
+
+# 2. 정적 기본 CSS (일반 문자열로 안전하게 주입)
+st.markdown("""
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700;800&display=swap');
+    
+    html, body, [class*="css"] {
+        font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+    }
 
     .hero-header {
         background: #0f172a;
@@ -401,7 +407,6 @@ st.markdown(f"""
         border-radius: 8px !important;
         box-shadow: 0 2px 8px rgba(0,0,0,0.06) !important;
     }
-
 </style>
 """, unsafe_allow_html=True)
 
