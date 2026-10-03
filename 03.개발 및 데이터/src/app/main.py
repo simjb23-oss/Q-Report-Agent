@@ -809,8 +809,19 @@ if "1. 성적서" in nav_menu:
 
         custom_note = st.text_input("추가 품질 지시사항 (선택사항, 예: 긴급 회신 기한, 대체 로트 선별 일정 등)", placeholder="예: 2차 시료 추가 검사 요청 및 24시간 이내 선별 인원 투입 일정 회신 요망", key="custom_mail_note")
 
-        if st.button("성적서 검토 결과 다국어 통보문 / 메일 초안 실시간 생성", type="primary", use_container_width=True):
-            with st.spinner("AI가 성적서 판정 결과 및 공차 데이터를 반영하여 다국어 비즈니스 초안을 작성 중입니다..."):
+        # 언어 변경 감지 또는 사용자가 버튼을 클릭했을 때 실시간 재생성 트리거
+        btn_generate = st.button("성적서 검토 결과 다국어 통보문 / 메일 초안 실시간 생성", type="primary", use_container_width=True)
+
+        need_rebuild = False
+        if btn_generate:
+            need_rebuild = True
+        elif "draft_lang_used" in st.session_state and st.session_state.draft_lang_used != selected_lang:
+            need_rebuild = True
+        elif "draft_mail_result" not in st.session_state or not st.session_state.draft_mail_result:
+            need_rebuild = True
+
+        if need_rebuild:
+            with st.spinner(f"AI가 [{selected_lang}] 기준으로 비즈니스 통보문 및 공문을 실시간 작성 중입니다..."):
                 mail_result = EmailDrafter.draft_email_with_gemini(
                     parsed_data=parsed,
                     eval_result=evaluated,
@@ -819,19 +830,9 @@ if "1. 성적서" in nav_menu:
                 )
                 st.session_state.draft_mail_result = mail_result
                 st.session_state.draft_lang_used = selected_lang
+                st.session_state["textarea_draft_body"] = mail_result.get("body", "")
 
-        # 생성된 초안 표시 및 복사/다운로드 제공
         cur_draft = st.session_state.get("draft_mail_result")
-        if not cur_draft:
-            # 초기 로드 시에도 즉시 기본 초안이 준비되어 있도록 자동 생성
-            cur_draft = EmailDrafter.draft_email_with_gemini(
-                parsed_data=parsed,
-                eval_result=evaluated,
-                language=selected_lang,
-                custom_instructions=""
-            )
-            st.session_state.draft_mail_result = cur_draft
-            st.session_state.draft_lang_used = selected_lang
 
         if cur_draft:
             st.markdown("<hr style='margin:14px 0; border:none; border-top:1px solid #e2e8f0;'>", unsafe_allow_html=True)
@@ -840,14 +841,15 @@ if "1. 성적서" in nav_menu:
             <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:12px 16px; margin-bottom:12px;">
                 <div style="font-size:12px; font-weight:700; color:#64748b; margin-bottom:2px;">메일 제목 (Subject)</div>
                 <div style="font-size:14px; font-weight:800; color:#0f172a;">{cur_draft.get('subject', '')}</div>
-                <div style="font-size:11px; color:#2563eb; font-weight:600; margin-top:4px;">작성 엔진: {cur_draft.get('source', '시스템 표준 엔진')} | 적용 언어: {cur_draft.get('language', selected_lang)}</div>
+                <div style="font-size:11px; color:#2563eb; font-weight:600; margin-top:4px;">작성 엔진: {cur_draft.get('source', '시스템 표준 비즈니스 템플릿')} | 적용 언어: {cur_draft.get('language', selected_lang)}</div>
             </div>
             """, unsafe_allow_html=True)
 
-            # 본문 텍스트 영역 (수정 및 복사 가능)
+            # 본문 텍스트 영역 (동적 언어 변경 시 즉시 갱신)
+            current_body_val = st.session_state.get("textarea_draft_body", cur_draft.get("body", ""))
             edited_body = st.text_area(
                 "공식 품질 통보문 본문 (필요 시 직접 수정 후 사용 가능)",
-                value=cur_draft.get("body", ""),
+                value=current_body_val,
                 height=260,
                 key="textarea_draft_body"
             )
