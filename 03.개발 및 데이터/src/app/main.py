@@ -347,84 +347,178 @@ st.markdown(f"""
     }}
 
     /* 사이드바 완벽 명도 대비 보장 */
-    [data-testid="stSidebar"] {{
+    [data-testid="stSidebar"] {
         background-color: {sb_bg} !important;
         border-right: 1px solid {sb_card_border} !important;
-    }}
+    }
     [data-testid="stSidebar"] p,
     [data-testid="stSidebar"] span,
-    [data-testid="stSidebar"] label,
-    [data-testid="stSidebar"] div {{
+    [data-testid="stSidebar"] label {
         color: {sb_text} !important;
-    }}
-    [data-testid="stSidebar"] hr {{
+    }
+    [data-testid="stSidebar"] hr {
         border-color: {sb_card_border} !important;
-    }}
-    .sb-title-label {{
+    }
+    .sb-title-label {
         color: {sb_text} !important;
         font-weight: 800 !important;
-    }}
-    .sb-item-label {{
+    }
+    .sb-item-label {
         color: {sb_subtext} !important;
-    }}
-    .sb-info-card {{
+    }
+    .sb-info-card {
         background-color: {sb_card_bg} !important;
         border: 1px solid {sb_card_border} !important;
         color: {sb_text} !important;
-    }}
-    .sb-brand-card {{
+    }
+    .sb-brand-card {
         background-color: #0f172a !important;
         border: 1px solid #1e293b !important;
         color: #ffffff !important;
         border-radius: 12px !important;
         padding: 16px 18px !important;
         margin-bottom: 14px !important;
-    }}
-    .sb-brand-card * {{
+    }
+    .sb-brand-card * {
         color: #ffffff !important;
-    }}
+    }
+
+    /* 모든 Selectbox 및 드롭다운 컨트롤 (사이드바 & 메인 전면 해결) */
+    [data-baseweb="select"],
+    [data-baseweb="select"] > div,
+    .stSelectbox > div > div {
+        background-color: #ffffff !important;
+        color: #0f172a !important;
+        border-radius: 8px !important;
+        border: 1px solid #cbd5e1 !important;
+    }
+    [data-baseweb="select"] * {
+        color: #0f172a !important;
+        font-weight: 600 !important;
+    }
+    /* 드롭다운 펼침 메뉴(팝오버/메뉴 리스트) */
+    [data-baseweb="popover"],
+    [data-baseweb="menu"],
+    ul[role="listbox"],
+    li[role="option"] {
+        background-color: #ffffff !important;
+        color: #0f172a !important;
+    }
+    li[role="option"] * {
+        color: #0f172a !important;
+    }
+    li[role="option"]:hover,
+    li[role="option"][aria-selected="true"] {
+        background-color: #e2e8f0 !important;
+        color: #0284c7 !important;
+    }
 
     /* 입력 폼 및 텍스트 영역 */
-    .stTextInput input, .stTextArea textarea, .stSelectbox [data-baseweb="select"] {{
+    .stTextInput input, 
+    .stTextArea textarea {
+        background-color: #ffffff !important;
+        color: #0f172a !important;
+        border: 1px solid #cbd5e1 !important;
+        border-radius: 8px !important;
+    }
+    .stTextInput input::placeholder,
+    .stTextArea textarea::placeholder {
+        color: #94a3b8 !important;
+    }
+
+    /* 라디오 버튼 텍스트 가독성 */
+    [data-testid="stRadio"] label,
+    [data-testid="stRadio"] span,
+    [data-testid="stRadio"] div {
+        color: {sb_text} !important;
+        font-weight: 600 !important;
+    }
+
+    /* 파일 업로더 컴포넌트 */
+    [data-testid="stFileUploader"] {
+        background-color: #ffffff !important;
+        border: 2px dashed #94a3b8 !important;
+        border-radius: 12px !important;
+        padding: 16px !important;
+    }
+    [data-testid="stFileUploader"] section {
+        background-color: #ffffff !important;
+        color: #0f172a !important;
+    }
+    [data-testid="stFileUploader"] * {
+        color: #0f172a !important;
+    }
+    [data-testid="stFileUploader"] button {
+        background-color: #0284c7 !important;
+        color: #ffffff !important;
+        border: none !important;
+        font-weight: 700 !important;
+    }
+    [data-testid="stFileUploader"] button * {
+        color: #ffffff !important;
+    }
+    [data-testid="stFileUploader"] small {
+        color: #64748b !important;
+    }
+
+    /* 탭(Tabs) 글자색 */
+    .stTabs [data-baseweb="tab-list"] {
+        background-color: transparent !important;
+    }
+    .stTabs [data-baseweb="tab"] {
+        color: #475569 !important;
+        font-weight: 700 !important;
+    }
+    .stTabs [aria-selected="true"] {
+        color: #0284c7 !important;
+        border-bottom-color: #0284c7 !important;
+    }
+
+    /* Expander 스타일 */
+    [data-testid="stExpander"] {
         background-color: {t_card_bg} !important;
-        color: {t_text} !important;
         border: 1px solid {t_card_border} !important;
-    }}
+        border-radius: 10px !important;
+    }
+    [data-testid="stExpander"] summary {
+        color: {t_text} !important;
+        font-weight: 700 !important;
+    }
 
     /* 판정 뱃지 */
-    .status-badge {{
+    .status-badge {
         display: inline-block !important;
         padding: 6px 14px !important;
         border-radius: 999px !important;
         font-size: 13px !important;
         font-weight: 800 !important;
         text-align: center !important;
-    }}
-    .status-pass {{
+    }
+    .status-pass {
         background-color: #15803d !important;
         color: #ffffff !important;
         border: 1px solid #166534 !important;
-    }}
-    .status-fail {{
+    }
+    .status-fail {
         background-color: #b91c1c !important;
         color: #ffffff !important;
         border: 1px solid #991b1b !important;
-    }}
-    .status-hold {{
+    }
+    .status-hold {
         background-color: #b45309 !important;
         color: #ffffff !important;
         border: 1px solid #92400e !important;
-    }}
+    }
 
     /* 전체 블록 컨테이너 스크롤 확장 */
-    .main .block-container {{
+    .main .block-container {
         max-width: 100% !important;
         padding-top: 1.5rem !important;
         padding-bottom: 5rem !important;
         padding-left: 2rem !important;
         padding-right: 2rem !important;
         overflow-y: visible !important;
-    }}
+    }
 </style>
 """, unsafe_allow_html=True)
 
