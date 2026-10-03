@@ -194,72 +194,101 @@ with st.sidebar:
 if theme_choice == "모던 네이비 (엔지니어링)":
     t_bg = "#0b1329"
     t_card_bg = "#131f37"
-    t_card_border = "#233554"
-    t_text = "#f1f5f9"
+    t_card_border = "#334155"
+    t_text = "#FFFFFF"
     t_subtext = "#94a3b8"
     t_box_bg = "#1b2a47"
     sb_bg = "#0f172a"
-    sb_text = "#f8fafc"
+    sb_text = "#FFFFFF"
     sb_subtext = "#cbd5e1"
     sb_card_bg = "#1e293b"
     sb_card_border = "#334155"
+    btn_text = "#FFFFFF"
 elif theme_choice == "다크 모드 (고대비/야간)":
     t_bg = "#090d16"
     t_card_bg = "#111827"
     t_card_border = "#374151"
-    t_text = "#f9fafb"
+    t_text = "#FFFFFF"
     t_subtext = "#9ca3af"
     t_box_bg = "#1f2937"
     sb_bg = "#111827"
-    sb_text = "#ffffff"
-    sb_subtext = "#9ca3af"
+    sb_text = "#FFFFFF"
+    sb_subtext = "#d1d5db"
     sb_card_bg = "#1f2937"
     sb_card_border = "#374151"
+    btn_text = "#FFFFFF"
 else:
-    # 클린 라이트 모드 (시인성 극대화 화이트 & 슬레이트)
+    # 클린 라이트 모드 (WCAG AAA 규격: 칠흑 먹색 텍스트 & 순백 배경)
     t_bg = "#f8fafc"
     t_card_bg = "#ffffff"
-    t_card_border = "#e2e8f0"
-    t_text = "#0f172a"
-    t_subtext = "#475569"
-    t_box_bg = "#f8fafc"
+    t_card_border = "#cbd5e1"
+    t_text = "#111827"
+    t_subtext = "#374151"
+    t_box_bg = "#f1f5f9"
     sb_bg = "#ffffff"
-    sb_text = "#0f172a"
-    sb_subtext = "#334155"
-    sb_card_bg = "#f1f5f9"
+    sb_text = "#111827"
+    sb_subtext = "#374151"
+    sb_card_bg = "#f8fafc"
     sb_card_border = "#cbd5e1"
+    btn_text = "#FFFFFF"
 
-# 1. 테마별 동적 오버라이드 CSS
+# 1. 고대비 테마 동적 CSS (WCAG 대비율 4.5:1 이상 및 Streamlit 다크모드 충돌 방지)
 st.markdown(f"""
 <style>
-    .stApp {{
+    @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700;800&display=swap');
+    
+    html, body, [class*="css"], .stApp {{
+        font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif !important;
         background-color: {t_bg} !important;
+        color: {t_text} !important;
     }}
+
+    /* 전체 카드 & 컨테이너: 배경색과 글자색 한 쌍 엄격 강제 */
     .section-card {{
-        background: {t_card_bg} !important;
+        background-color: {t_card_bg} !important;
         border: 1px solid {t_card_border} !important;
         color: {t_text} !important;
+        border-radius: 14px !important;
+        padding: 22px !important;
+        margin-bottom: 20px !important;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05) !important;
     }}
     .section-title {{
         color: {t_text} !important;
+        font-size: 17px !important;
+        font-weight: 800 !important;
+        margin-bottom: 12px !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
     }}
     .field-box, .kpi-card {{
-        background: {t_box_bg} !important;
+        background-color: {t_box_bg} !important;
         border: 1px solid {t_card_border} !important;
+        color: {t_text} !important;
+        border-radius: 10px !important;
+        padding: 12px 14px !important;
     }}
     .field-value, .kpi-num {{
         color: {t_text} !important;
+        font-weight: 800 !important;
     }}
     .field-label {{
         color: {t_subtext} !important;
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        text-transform: uppercase !important;
     }}
 
-    /* 사이드바 가독성 & 대비 강제 최적화 */
+    /* 사이드바 고대비 규칙 (글자색 누락 방지) */
     [data-testid="stSidebar"] {{
         background-color: {sb_bg} !important;
         border-right: 1px solid {sb_card_border} !important;
     }}
-    [data-testid="stSidebar"] * {{
+    [data-testid="stSidebar"] div,
+    [data-testid="stSidebar"] span,
+    [data-testid="stSidebar"] p,
+    [data-testid="stSidebar"] label {{
         color: {sb_text} !important;
     }}
     [data-testid="stSidebar"] hr {{
@@ -274,6 +303,132 @@ st.markdown(f"""
     .sb-info-card {{
         background-color: {sb_card_bg} !important;
         border: 1px solid {sb_card_border} !important;
+        color: {sb_text} !important;
+    }}
+
+    /* Streamlit 입력 폼/텍스트 영역/셀렉트박스 글자색 강제 */
+    .stTextInput input, .stTextArea textarea, .stSelectbox [data-baseweb="select"] {{
+        background-color: {t_card_bg} !important;
+        color: {t_text} !important;
+        border-color: {t_card_border} !important;
+    }}
+    .stTextArea textarea {{
+        background-color: {t_box_bg} !important;
+        color: {t_text} !important;
+        font-size: 13.5px !important;
+        line-height: 1.6 !important;
+    }}
+
+    /* 버튼 가독성 고정 */
+    button[kind="primary"] {{
+        background-color: #2563eb !important;
+        color: #FFFFFF !important;
+        border: none !important;
+        font-weight: 700 !important;
+    }}
+    button[kind="secondary"] {{
+        background-color: {t_box_bg} !important;
+        color: {t_text} !important;
+        border: 1px solid {t_card_border} !important;
+        font-weight: 600 !important;
+    }}
+
+    /* 헤더 배너 */
+    .hero-header {{
+        background: #0f172a !important;
+        color: #ffffff !important;
+        padding: 22px 28px !important;
+        border-radius: 12px !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        margin-bottom: 20px !important;
+        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12) !important;
+    }}
+    .hero-brand {{
+        font-size: 24px !important;
+        font-weight: 800 !important;
+        color: #ffffff !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+    }}
+    .hero-tag {{
+        font-size: 13px !important;
+        color: #94a3b8 !important;
+        margin-top: 4px !important;
+    }}
+    .hero-badge {{
+        background: #1e293b !important;
+        color: #38bdf8 !important;
+        padding: 6px 14px !important;
+        border-radius: 999px !important;
+        font-size: 12px !important;
+        font-weight: 700 !important;
+        border: 1px solid #334155 !important;
+    }}
+
+    /* 스텝 바 */
+    .step-bar {{
+        display: flex !important;
+        gap: 8px !important;
+        flex-wrap: wrap !important;
+        margin-bottom: 22px !important;
+    }}
+    .step-pill {{
+        padding: 8px 14px !important;
+        border-radius: 999px !important;
+        background-color: #e2e8f0 !important;
+        color: #1e293b !important;
+        font-size: 12px !important;
+        font-weight: 700 !important;
+    }}
+    .step-pill.active {{
+        background-color: #0f172a !important;
+        color: #ffffff !important;
+    }}
+
+    /* 판정 뱃지: 배경색과 글자색 철저히 분리 */
+    .status-badge {{
+        display: inline-block !important;
+        padding: 6px 14px !important;
+        border-radius: 999px !important;
+        font-size: 13px !important;
+        font-weight: 800 !important;
+        text-align: center !important;
+    }}
+    .status-pass {{
+        background-color: #15803d !important;
+        color: #ffffff !important;
+        border: 1px solid #166534 !important;
+    }}
+    .status-fail {{
+        background-color: #b91c1c !important;
+        color: #ffffff !important;
+        border: 1px solid #991b1b !important;
+    }}
+    .status-hold {{
+        background-color: #b45309 !important;
+        color: #ffffff !important;
+        border: 1px solid #92400e !important;
+    }}
+
+    /* 그리드 레이아웃 */
+    .field-grid, .kpi-grid {{
+        display: grid !important;
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 12px !important;
+        margin-top: 10px !important;
+    }}
+
+    /* 전체 블록 컨테이너 스크롤 확장 */
+    .main .block-container {{
+        max-width: 100% !important;
+        padding-top: 1.5rem !important;
+        padding-bottom: 5rem !important;
+        padding-left: 2rem !important;
+        padding-right: 2rem !important;
+        overflow-y: visible !important;
     }}
 </style>
 """, unsafe_allow_html=True)
@@ -766,7 +921,7 @@ if "1. 성적서" in nav_menu:
                         <div class="field-value" style="color:{risk_color}; font-size:18px;">{risk_level}</div>
                     </div>
                 </div>
-                <div style="font-size:13px; line-height:1.6; color:#334155; background:#f8fafc; padding:12px; border-radius:8px; border:1px solid #e2e8f0;">
+                <div style="font-size:13px; line-height:1.6; color:#111827; background-color:#f1f5f9; padding:14px; border-radius:8px; border:1px solid #cbd5e1; font-weight:500;">
                     {'[정상] 모든 검사 항목 및 공차가 사내 규격을 만족합니다. 완제품 출하 승인 및 입고 가결 처리를 진행하십시오.' if is_pass else '[경고] <b>규격 이탈 및 결함 확인:</b> 공차 기준치를 초과한 항목이 확인되었습니다. 출하/입고를 즉시 보류하고 협력사에 표준 NCR을 발행하여 원인분석을 요구하십시오.'}
                 </div>
             </div>
@@ -838,10 +993,10 @@ if "1. 성적서" in nav_menu:
             st.markdown("<hr style='margin:14px 0; border:none; border-top:1px solid #e2e8f0;'>", unsafe_allow_html=True)
             
             st.markdown(f"""
-            <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:12px 16px; margin-bottom:12px;">
-                <div style="font-size:12px; font-weight:700; color:#64748b; margin-bottom:2px;">메일 제목 (Subject)</div>
-                <div style="font-size:14px; font-weight:800; color:#0f172a;">{cur_draft.get('subject', '')}</div>
-                <div style="font-size:11px; color:#2563eb; font-weight:600; margin-top:4px;">작성 엔진: {cur_draft.get('source', '시스템 표준 비즈니스 템플릿')} | 적용 언어: {cur_draft.get('language', selected_lang)}</div>
+            <div style="background-color:#1e293b; border:1px solid #334155; border-radius:8px; padding:14px 18px; margin-bottom:12px; color:#ffffff;">
+                <div style="font-size:12px; font-weight:700; color:#94a3b8; margin-bottom:4px;">메일 제목 (Subject)</div>
+                <div style="font-size:15px; font-weight:800; color:#ffffff;">{cur_draft.get('subject', '')}</div>
+                <div style="font-size:12px; color:#38bdf8; font-weight:600; margin-top:6px;">작성 엔진: {cur_draft.get('source', '시스템 표준 비즈니스 템플릿')} | 적용 언어: {cur_draft.get('language', selected_lang)}</div>
             </div>
             """, unsafe_allow_html=True)
 
