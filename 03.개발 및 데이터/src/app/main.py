@@ -116,7 +116,7 @@ with st.sidebar:
 
     st.markdown("""
     <div style='display:flex; align-items:center; gap:6px; margin-bottom:4px;'>
-        <span style='font-size:12px; font-weight:700; color:#334155;'>• AQL 검사 엄격도</span>
+        <span class='sb-item-label'>• AQL 검사 엄격도</span>
         <span title='[AQL 검사 수준 도입 배경]&#10;제조 품질 표준(ISO 2859-1)에 따라 입고 로트 크기와 협력사 신뢰도에 맞춘 샘플링 엄격도를 동적 적용합니다.&#10;1. 일반검사 Level II: 표준 입고 검사 (기본)&#10;2. 엄격검사 Level III: 불량 이력 협력사 대상 전수급 강화 샘플링&#10;3. 특별검사 S-4: 파괴 검사 및 핵심 보안 부품 정밀 샘플링' style='cursor:help; display:inline-flex; align-items:center; justify-content:center; width:16px; height:16px; border-radius:50%; background:#e2e8f0; color:#475569; font-size:11px; font-weight:bold;'>?</span>
     </div>
     """, unsafe_allow_html=True)
@@ -130,7 +130,7 @@ with st.sidebar:
 
     st.markdown("""
     <div style='display:flex; align-items:center; gap:6px; margin-top:10px; margin-bottom:4px;'>
-        <span style='font-size:12px; font-weight:700; color:#334155;'>• AI 추론 엔진</span>
+        <span class='sb-item-label'>• AI 추론 엔진</span>
         <span title='[엔진 분리 사유 안내]&#10;1. Gemini 3.8 Flash: 비정형 성적서(스캔본/표/이미지)를 사람처럼 유연하게 시각 판독하는 운영용 멀티모달 AI입니다.&#10;2. 로컬 룰베이스 Fallback: 사내 보안 폐쇄망이나 API Key가 없는 시연/심사 환경에서도 100% 무인 무중단 판독을 보장하는 Fail-Safe 안전장치입니다.' style='cursor:help; display:inline-flex; align-items:center; justify-content:center; width:16px; height:16px; border-radius:50%; background:#e2e8f0; color:#475569; font-size:11px; font-weight:bold;'>?</span>
     </div>
     """, unsafe_allow_html=True)
@@ -173,15 +173,15 @@ with st.sidebar:
     </div>
     <div class="sb-info-card" style="border-radius:10px; padding:12px 14px; font-size:12px; line-height:1.6;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; white-space:nowrap; gap:6px;">
-            <span style="color:#475569; font-weight:600; white-space:nowrap;">• RapidOCR Engine:</span>
+            <span style="font-weight:700; white-space:nowrap;">• RapidOCR Engine:</span>
             <span style="font-weight:700; color:#15803d; background:#dcfce7; padding:2px 7px; border-radius:4px; border:1px solid #86efac; white-space:nowrap; font-size:11px;">Active</span>
         </div>
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; white-space:nowrap; gap:6px;">
-            <span style="color:#475569; font-weight:600; white-space:nowrap;">• Cloud Webhook:</span>
+            <span style="font-weight:700; white-space:nowrap;">• Cloud Webhook:</span>
             <span style="font-weight:700; color:#15803d; background:#dcfce7; padding:2px 7px; border-radius:4px; border:1px solid #86efac; white-space:nowrap; font-size:11px;">Synced (Apps Script)</span>
         </div>
         <div style="display:flex; justify-content:space-between; align-items:center; white-space:nowrap; gap:6px;">
-            <span style="color:#475569; font-weight:600; white-space:nowrap;">• Memory Cache:</span>
+            <span style="font-weight:700; white-space:nowrap;">• Memory Cache:</span>
             <span style="font-weight:700; color:#15803d; background:#dcfce7; padding:2px 7px; border-radius:4px; border:1px solid #86efac; white-space:nowrap; font-size:11px;">24 Cases Loaded</span>
         </div>
     </div>
@@ -225,10 +225,10 @@ else:
     t_text = "#111827"
     t_subtext = "#374151"
     t_box_bg = "#f1f5f9"
-    sb_bg = "#ffffff"
-    sb_text = "#111827"
-    sb_subtext = "#374151"
-    sb_card_bg = "#f8fafc"
+    sb_bg = "#f8fafc"
+    sb_text = "#0f172a"
+    sb_subtext = "#1e293b"
+    sb_card_bg = "#ffffff"
     sb_card_border = "#cbd5e1"
     btn_text = "#FFFFFF"
 
@@ -346,40 +346,54 @@ st.markdown(f"""
         text-transform: uppercase !important;
     }}
 
-    /* 사이드바 완벽 명도 대비 보장 */
-    [data-testid="stSidebar"] {{
+    /* 사이드바 완벽 명도 대비 보장 (모든 자식 텍스트 고대비 강제 적용) */
+    [data-testid="stSidebar"],
+    section[data-testid="stSidebar"],
+    [data-testid="stSidebar"] > div:first-child {{
         background-color: {sb_bg} !important;
         border-right: 1px solid {sb_card_border} !important;
     }}
     [data-testid="stSidebar"] p,
     [data-testid="stSidebar"] span,
-    [data-testid="stSidebar"] label {{
+    [data-testid="stSidebar"] label,
+    [data-testid="stSidebar"] div:not(.sb-brand-card):not(.sb-brand-card *) {{
         color: {sb_text} !important;
     }}
     [data-testid="stSidebar"] hr {{
-        border-color: {sb_card_border} !important;
+        border: none !important;
+        border-top: 1px solid {sb_card_border} !important;
+        margin: 12px 0 !important;
     }}
     .sb-title-label {{
         color: {sb_text} !important;
         font-weight: 800 !important;
+        font-size: 13px !important;
     }}
     .sb-item-label {{
-        color: {sb_subtext} !important;
+        color: {sb_text} !important;
+        font-weight: 700 !important;
+        font-size: 12px !important;
     }}
     .sb-info-card {{
         background-color: {sb_card_bg} !important;
         border: 1px solid {sb_card_border} !important;
         color: {sb_text} !important;
     }}
+    .sb-info-card * {{
+        color: {sb_text} !important;
+    }}
     .sb-brand-card {{
         background-color: #0f172a !important;
         border: 1px solid #1e293b !important;
-        color: #ffffff !important;
         border-radius: 12px !important;
         padding: 16px 18px !important;
         margin-bottom: 14px !important;
     }}
-    .sb-brand-card * {{
+    .sb-brand-card,
+    .sb-brand-card div,
+    .sb-brand-card p,
+    .sb-brand-card span,
+    .sb-brand-card b {{
         color: #ffffff !important;
     }}
 
@@ -426,12 +440,14 @@ st.markdown(f"""
         color: #94a3b8 !important;
     }}
 
-    /* 라디오 버튼 텍스트 가독성 */
+    /* 라디오 버튼 텍스트 가독성 (사이드바 & 본문 모두 적용) */
     [data-testid="stRadio"] label,
     [data-testid="stRadio"] span,
-    [data-testid="stRadio"] div {{
+    [data-testid="stRadio"] div,
+    [data-testid="stRadio"] p {{
         color: {sb_text} !important;
-        font-weight: 600 !important;
+        font-weight: 700 !important;
+        font-size: 13px !important;
     }}
 
     /* 파일 업로더 컴포넌트 */
