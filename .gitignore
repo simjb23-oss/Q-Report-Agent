@@ -24,3 +24,11 @@ temp_uploads/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Contest Administrative & Document folders (Kept locally, excluded from GitHub repo)
+00.공고 및 일정/
+01.기획 및 아이디어/
+02.제출서류 및 신청/
+04.발표 및 최종 제출/
+5.제출용/
+
