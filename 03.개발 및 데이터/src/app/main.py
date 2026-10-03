@@ -49,6 +49,108 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+# -------------------------------------------------------------
+# [초강력 전역 & 사이드바 고대비 스타일 - 사용자 지정 CSS 적용]
+# -------------------------------------------------------------
+st.markdown(
+    """
+    <style>
+    /* 1. 사이드바: 짙은 프리미엄 네이비 배경 (#0F172A) + 선명한 화이트 글자 (#F8FAFC) */
+    section[data-testid="stSidebar"],
+    [data-testid="stSidebar"],
+    [data-testid="stSidebar"] > div:first-child {
+        background-color: #0F172A !important;
+        border-right: 1px solid #1E293B !important;
+    }
+    section[data-testid="stSidebar"] *,
+    [data-testid="stSidebar"] *,
+    [data-testid="stSidebar"] p,
+    [data-testid="stSidebar"] span,
+    [data-testid="stSidebar"] label,
+    [data-testid="stSidebar"] div {
+        color: #F8FAFC !important;
+    }
+
+    /* 2. 사이드바 내부 브랜드/타이틀 라벨 선명도 고정 */
+    .sb-title-label, .sb-item-label {
+        color: #F8FAFC !important;
+        font-weight: 800 !important;
+    }
+
+    /* 3. 입력창 & 셀렉트박스: 순백 배경 (#FFFFFF) + 짙은 먹색 글자 (#0F172A) 완벽 식별 */
+    input, textarea,
+    [data-baseweb="select"],
+    [data-baseweb="select"] > div,
+    [data-baseweb="select"] div,
+    .stSelectbox,
+    .stSelectbox > div,
+    .stSelectbox > div > div {
+        background-color: #FFFFFF !important;
+        color: #0F172A !important;
+        border-radius: 8px !important;
+    }
+    input *, textarea *,
+    [data-baseweb="select"] *,
+    .stSelectbox *,
+    [data-baseweb="select"] span,
+    [data-baseweb="select"] div,
+    [data-baseweb="select"] p,
+    [data-baseweb="select"] [aria-selected="true"],
+    .stSelectbox span,
+    .stSelectbox div,
+    .stSelectbox p {
+        color: #0F172A !important;
+        -webkit-text-fill-color: #0F172A !important;
+        font-weight: 700 !important;
+        opacity: 1 !important;
+    }
+
+    /* 4. 드롭다운 펼침 메뉴(팝오버/옵션 리스트) 완벽 가독성 */
+    [data-baseweb="popover"],
+    [data-baseweb="menu"],
+    div[role="listbox"],
+    ul[role="listbox"],
+    li[role="option"] {
+        background-color: #FFFFFF !important;
+        color: #0F172A !important;
+    }
+    [data-baseweb="popover"] *,
+    [data-baseweb="menu"] *,
+    li[role="option"] * {
+        color: #0F172A !important;
+        -webkit-text-fill-color: #0F172A !important;
+        font-weight: 600 !important;
+        opacity: 1 !important;
+    }
+    li[role="option"]:hover,
+    li[role="option"][aria-selected="true"] {
+        background-color: #E2E8F0 !important;
+    }
+    li[role="option"]:hover *,
+    li[role="option"][aria-selected="true"] * {
+        color: #0284C7 !important;
+        -webkit-text-fill-color: #0284C7 !important;
+        font-weight: 800 !important;
+    }
+
+    /* 5. 메트릭(수치 카드) 박스 시인성 확보 */
+    [data-testid="stMetricValue"] {
+        color: #00FFA3 !important; /* 핵심 숫자는 형광 민트로 발광 */
+    }
+    [data-testid="stMetricLabel"] {
+        color: #94A3B8 !important; /* 보조 라벨은 밝은 회색 */
+    }
+
+    /* 6. 알림/안내창(st.info, st.success 등) 내부 글자 검은색 고정 */
+    [data-testid="stAlert"] * {
+        color: #0F172A !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+
 # 세션 상태 초기화
 if "analysis_done" not in st.session_state:
     st.session_state.analysis_done = False
@@ -225,10 +327,10 @@ else:
     t_text = "#111827"
     t_subtext = "#374151"
     t_box_bg = "#f1f5f9"
-    sb_bg = "#f8fafc"
-    sb_text = "#0f172a"
-    sb_subtext = "#1e293b"
-    sb_card_bg = "#ffffff"
+    sb_bg = "#0f172a"
+    sb_text = "#f8fafc"
+    sb_subtext = "#94a3b8"
+    sb_card_bg = "#1e293b"
     sb_card_border = "#cbd5e1"
     btn_text = "#FFFFFF"
 
