@@ -72,14 +72,14 @@ with st.sidebar:
     status_color = "#16a34a"
     
     st.markdown(f"""
-    <div style="background:#0f172a; padding:16px 18px; border-radius:12px; border:1px solid #1e293b; margin-bottom:14px; box-shadow:0 4px 12px rgba(0,0,0,0.15);">
-        <div style="font-size:16px; font-weight:800; color:#ffffff; margin:0 0 6px 0; display:flex; align-items:center; gap:6px;">
-            <span>Q-Report Agent</span>
-            <span style="font-size:12px; color:#94a3b8; font-weight:600;">| 칼퇴보증 팀</span>
+    <div class="sb-brand-card">
+        <div style="font-size:16px; font-weight:800; color:#ffffff !important; margin:0 0 6px 0; display:flex; align-items:center; gap:6px;">
+            <span style="color:#ffffff !important;">Q-Report Agent</span>
+            <span style="font-size:12px; color:#38bdf8 !important; font-weight:700;">| 칼퇴보증 팀</span>
         </div>
-        <div style="font-size:12px; font-weight:700; color:#e2e8f0; display:flex; align-items:center; gap:6px; background:#1e293b; padding:5px 10px; border-radius:6px; border:1px solid #334155;">
-            <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:{status_color};"></span>
-            <span>Status: <b>{status_label}</b></span>
+        <div style="font-size:12px; font-weight:700; color:#ffffff !important; display:flex; align-items:center; gap:6px; background-color:#1e293b; padding:6px 10px; border-radius:6px; border:1px solid #334155;">
+            <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background-color:{status_color};"></span>
+            <span style="color:#ffffff !important;">Status: <b style="color:#ffffff !important;">{status_label}</b></span>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -232,7 +232,7 @@ else:
     sb_card_border = "#cbd5e1"
     btn_text = "#FFFFFF"
 
-# 1. 고대비 테마 동적 CSS (WCAG 대비율 4.5:1 이상 및 Streamlit 다크모드 충돌 방지)
+# [WCAG 고대비 단일 통합 테마 CSS]
 st.markdown(f"""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700;800&display=swap');
@@ -243,7 +243,65 @@ st.markdown(f"""
         color: {t_text} !important;
     }}
 
-    /* 전체 카드 & 컨테이너: 배경색과 글자색 한 쌍 엄격 강제 */
+    /* 최상단 헤더 배너 */
+    .hero-header {{
+        background-color: #0f172a !important;
+        color: #ffffff !important;
+        padding: 22px 28px !important;
+        border-radius: 12px !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        margin-bottom: 20px !important;
+        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15) !important;
+        border: 1px solid #1e293b !important;
+    }}
+    .hero-brand {{
+        font-size: 24px !important;
+        font-weight: 800 !important;
+        color: #ffffff !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+    }}
+    .hero-tag {{
+        font-size: 13px !important;
+        color: #94a3b8 !important;
+        margin-top: 4px !important;
+    }}
+    .hero-badge {{
+        background-color: #1e293b !important;
+        color: #38bdf8 !important;
+        padding: 6px 14px !important;
+        border-radius: 999px !important;
+        font-size: 12px !important;
+        font-weight: 700 !important;
+        border: 1px solid #334155 !important;
+    }}
+
+    /* 상단 진행 스텝바 */
+    .step-bar {{
+        display: flex !important;
+        gap: 8px !important;
+        flex-wrap: wrap !important;
+        margin-bottom: 22px !important;
+    }}
+    .step-pill {{
+        padding: 8px 14px !important;
+        border-radius: 999px !important;
+        background-color: #e2e8f0 !important;
+        color: #0f172a !important;
+        font-size: 12px !important;
+        font-weight: 700 !important;
+        border: 1px solid #cbd5e1 !important;
+    }}
+    .step-pill.active {{
+        background-color: #0f172a !important;
+        color: #ffffff !important;
+        border: 1px solid #0f172a !important;
+    }}
+
+    /* 메인 컨텐츠 섹션 카드 */
     .section-card {{
         background-color: {t_card_bg} !important;
         border: 1px solid {t_card_border} !important;
@@ -251,7 +309,7 @@ st.markdown(f"""
         border-radius: 14px !important;
         padding: 22px !important;
         margin-bottom: 20px !important;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05) !important;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06) !important;
     }}
     .section-title {{
         color: {t_text} !important;
@@ -261,6 +319,14 @@ st.markdown(f"""
         display: flex !important;
         align-items: center !important;
         gap: 8px !important;
+    }}
+
+    /* 그리드 및 세부 박스 */
+    .field-grid, .kpi-grid {{
+        display: grid !important;
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 12px !important;
+        margin-top: 10px !important;
     }}
     .field-box, .kpi-card {{
         background-color: {t_box_bg} !important;
@@ -280,15 +346,15 @@ st.markdown(f"""
         text-transform: uppercase !important;
     }}
 
-    /* 사이드바 고대비 규칙 (글자색 누락 방지) */
+    /* 사이드바 완벽 명도 대비 보장 */
     [data-testid="stSidebar"] {{
         background-color: {sb_bg} !important;
         border-right: 1px solid {sb_card_border} !important;
     }}
-    [data-testid="stSidebar"] div,
-    [data-testid="stSidebar"] span,
     [data-testid="stSidebar"] p,
-    [data-testid="stSidebar"] label {{
+    [data-testid="stSidebar"] span,
+    [data-testid="stSidebar"] label,
+    [data-testid="stSidebar"] div {{
         color: {sb_text} !important;
     }}
     [data-testid="stSidebar"] hr {{
@@ -296,6 +362,7 @@ st.markdown(f"""
     }}
     .sb-title-label {{
         color: {sb_text} !important;
+        font-weight: 800 !important;
     }}
     .sb-item-label {{
         color: {sb_subtext} !important;
@@ -305,90 +372,26 @@ st.markdown(f"""
         border: 1px solid {sb_card_border} !important;
         color: {sb_text} !important;
     }}
+    .sb-brand-card {{
+        background-color: #0f172a !important;
+        border: 1px solid #1e293b !important;
+        color: #ffffff !important;
+        border-radius: 12px !important;
+        padding: 16px 18px !important;
+        margin-bottom: 14px !important;
+    }}
+    .sb-brand-card * {{
+        color: #ffffff !important;
+    }}
 
-    /* Streamlit 입력 폼/텍스트 영역/셀렉트박스 글자색 강제 */
+    /* 입력 폼 및 텍스트 영역 */
     .stTextInput input, .stTextArea textarea, .stSelectbox [data-baseweb="select"] {{
         background-color: {t_card_bg} !important;
         color: {t_text} !important;
-        border-color: {t_card_border} !important;
-    }}
-    .stTextArea textarea {{
-        background-color: {t_box_bg} !important;
-        color: {t_text} !important;
-        font-size: 13.5px !important;
-        line-height: 1.6 !important;
-    }}
-
-    /* 버튼 가독성 고정 */
-    button[kind="primary"] {{
-        background-color: #2563eb !important;
-        color: #FFFFFF !important;
-        border: none !important;
-        font-weight: 700 !important;
-    }}
-    button[kind="secondary"] {{
-        background-color: {t_box_bg} !important;
-        color: {t_text} !important;
         border: 1px solid {t_card_border} !important;
-        font-weight: 600 !important;
     }}
 
-    /* 헤더 배너 */
-    .hero-header {{
-        background: #0f172a !important;
-        color: #ffffff !important;
-        padding: 22px 28px !important;
-        border-radius: 12px !important;
-        display: flex !important;
-        justify-content: space-between !important;
-        align-items: center !important;
-        margin-bottom: 20px !important;
-        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12) !important;
-    }}
-    .hero-brand {{
-        font-size: 24px !important;
-        font-weight: 800 !important;
-        color: #ffffff !important;
-        display: flex !important;
-        align-items: center !important;
-        gap: 10px !important;
-    }}
-    .hero-tag {{
-        font-size: 13px !important;
-        color: #94a3b8 !important;
-        margin-top: 4px !important;
-    }}
-    .hero-badge {{
-        background: #1e293b !important;
-        color: #38bdf8 !important;
-        padding: 6px 14px !important;
-        border-radius: 999px !important;
-        font-size: 12px !important;
-        font-weight: 700 !important;
-        border: 1px solid #334155 !important;
-    }}
-
-    /* 스텝 바 */
-    .step-bar {{
-        display: flex !important;
-        gap: 8px !important;
-        flex-wrap: wrap !important;
-        margin-bottom: 22px !important;
-    }}
-    .step-pill {{
-        padding: 8px 14px !important;
-        border-radius: 999px !important;
-        background-color: #e2e8f0 !important;
-        color: #1e293b !important;
-        font-size: 12px !important;
-        font-weight: 700 !important;
-    }}
-    .step-pill.active {{
-        background-color: #0f172a !important;
-        color: #ffffff !important;
-    }}
-
-    /* 판정 뱃지: 배경색과 글자색 철저히 분리 */
+    /* 판정 뱃지 */
     .status-badge {{
         display: inline-block !important;
         padding: 6px 14px !important;
@@ -413,14 +416,6 @@ st.markdown(f"""
         border: 1px solid #92400e !important;
     }}
 
-    /* 그리드 레이아웃 */
-    .field-grid, .kpi-grid {{
-        display: grid !important;
-        grid-template-columns: repeat(4, 1fr) !important;
-        gap: 12px !important;
-        margin-top: 10px !important;
-    }}
-
     /* 전체 블록 컨테이너 스크롤 확장 */
     .main .block-container {{
         max-width: 100% !important;
@@ -430,176 +425,6 @@ st.markdown(f"""
         padding-right: 2rem !important;
         overflow-y: visible !important;
     }}
-</style>
-""", unsafe_allow_html=True)
-
-# 2. 정적 기본 CSS (일반 문자열로 안전하게 주입)
-st.markdown("""
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700;800&display=swap');
-    
-    html, body, [class*="css"] {
-        font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
-    }
-
-    .hero-header {
-        background: #0f172a;
-        color: #ffffff;
-        padding: 22px 28px;
-        border-radius: 12px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
-    }
-    .hero-brand {
-        font-size: 24px;
-        font-weight: 800;
-        letter-spacing: -0.5px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-    .hero-brand-img {
-        width: 32px;
-        height: 32px;
-        border-radius: 6px;
-        object-fit: contain;
-    }
-    .hero-tag {
-        font-size: 13px;
-        color: #94a3b8;
-        margin-top: 4px;
-    }
-    .hero-badge {
-        background: #1e293b;
-        color: #38bdf8;
-        padding: 6px 14px;
-        border-radius: 999px;
-        font-size: 12px;
-        font-weight: 700;
-        border: 1px solid #334155;
-    }
-
-    .step-bar {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-        margin-bottom: 22px;
-    }
-    .step-pill {
-        padding: 8px 14px;
-        border-radius: 999px;
-        background: #e2e8f0;
-        color: #475569;
-        font-size: 12px;
-        font-weight: 700;
-    }
-    .step-pill.active {
-        background: #0f172a;
-        color: #ffffff;
-    }
-
-    .section-card {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 14px;
-        padding: 22px;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-        margin-bottom: 20px;
-    }
-    .section-title {
-        font-size: 17px;
-        font-weight: 800;
-        color: #0f172a;
-        margin-bottom: 12px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .field-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 12px;
-        margin-top: 10px;
-    }
-    .field-box {
-        background: #f8fafc;
-        border: 1px solid #e2e8f0;
-        border-radius: 10px;
-        padding: 12px 14px;
-    }
-    .field-label {
-        font-size: 11px;
-        color: #64748b;
-        font-weight: 700;
-        text-transform: uppercase;
-    }
-    .field-value {
-        font-size: 15px;
-        font-weight: 800;
-        color: #0f172a;
-        margin-top: 4px;
-    }
-
-    .status-badge {
-        display: inline-block;
-        padding: 6px 14px;
-        border-radius: 999px;
-        font-size: 13px;
-        font-weight: 800;
-        text-align: center;
-    }
-    .status-pass {
-        background: #dcfce7;
-        color: #166534;
-        border: 1px solid #86efac;
-    }
-    .status-fail {
-        background: #fee2e2;
-        color: #991b1b;
-        border: 1px solid #fca5a5;
-    }
-    .status-hold {
-        background: #fef3c7;
-        color: #92400e;
-        border: 1px solid #fde68a;
-    }
-
-    .kpi-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 12px;
-        margin-top: 12px;
-    }
-    .kpi-card {
-        background: #f8fafc;
-        border: 1px solid #e2e8f0;
-        border-radius: 10px;
-        padding: 16px;
-        text-align: center;
-    }
-    .kpi-num {
-        font-size: 26px;
-        font-weight: 800;
-        margin-top: 4px;
-    }
-
-    /* 스크롤 짤림 방지 및 전체 페이지 스크롤 확장 */
-    .main .block-container {
-        max-width: 100% !important;
-        padding-top: 1.5rem !important;
-        padding-bottom: 5rem !important;
-        padding-left: 2rem !important;
-        padding-right: 2rem !important;
-        overflow-y: visible !important;
-    }
-    iframe {
-        border-radius: 8px !important;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.06) !important;
-    }
 </style>
 """, unsafe_allow_html=True)
 
