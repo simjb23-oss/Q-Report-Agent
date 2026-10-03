@@ -147,7 +147,25 @@ with st.sidebar:
     st.markdown("<hr style='margin:12px 0; border:none; border-top:1px solid #e2e8f0;'>", unsafe_allow_html=True)
 
     # -------------------------------------------------------------
-    # [블록 4] 인프라 연동 상태 모니터 (줄바꿈/짤림 방지 최적화)
+    # [블록 4] UI/UX 테마 및 색상 스타일 설정
+    # -------------------------------------------------------------
+    st.markdown('''
+    <div style="font-size:13px; font-weight:800; color:#0f172a; margin-top:14px; margin-bottom:6px;">
+        [UI/UX 테마 스타일]
+    </div>
+    ''', unsafe_allow_html=True)
+    
+    theme_choice = st.selectbox(
+        "테마 모드 선택",
+        ["클린 라이트 (밝은 오피스)", "모던 네이비 (엔지니어링)", "다크 모드 (고대비/야간)"],
+        index=0,
+        label_visibility="collapsed",
+        help="대시보드의 배경색과 카드 스타일을 실시간으로 전환합니다."
+    )
+    st.markdown("<hr style='margin:12px 0; border:none; border-top:1px solid #e2e8f0;'>", unsafe_allow_html=True)
+
+    # -------------------------------------------------------------
+    # [블록 5] 인프라 연동 상태 모니터 (줄바꿈/짤림 방지 최적화)
     # -------------------------------------------------------------
     st.markdown("""
     <div style="font-size:13px; font-weight:800; color:#0f172a; margin-bottom:8px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
@@ -172,13 +190,58 @@ with st.sidebar:
 # -------------------------------------------------------------
 # 모던 프리미엄 CSS
 # -------------------------------------------------------------
-st.markdown("""
+# Dynamic Theme Palette
+if theme_choice == "모던 네이비 (엔지니어링)":
+    t_bg = "#0b1329"
+    t_card_bg = "#131f37"
+    t_card_border = "#233554"
+    t_text = "#f1f5f9"
+    t_subtext = "#94a3b8"
+    t_box_bg = "#1b2a47"
+elif theme_choice == "다크 모드 (고대비/야간)":
+    t_bg = "#090d16"
+    t_card_bg = "#111827"
+    t_card_border = "#374151"
+    t_text = "#f9fafb"
+    t_subtext = "#9ca3af"
+    t_box_bg = "#1f2937"
+else:
+    t_bg = "#f8fafc"
+    t_card_bg = "#ffffff"
+    t_card_border = "#e2e8f0"
+    t_text = "#0f172a"
+    t_subtext = "#64748b"
+    t_box_bg = "#f8fafc"
+
+st.markdown(f"""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700;800&display=swap');
     
-    html, body, [class*="css"] {
+    html, body, [class*="css"] {{
         font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
-    }
+    }}
+
+    .stApp {{
+        background-color: {t_bg} !important;
+    }}
+    .section-card {{
+        background: {t_card_bg} !important;
+        border: 1px solid {t_card_border} !important;
+        color: {t_text} !important;
+    }}
+    .section-title {{
+        color: {t_text} !important;
+    }}
+    .field-box, .kpi-card {{
+        background: {t_box_bg} !important;
+        border: 1px solid {t_card_border} !important;
+    }}
+    .field-value, .kpi-num {{
+        color: {t_text} !important;
+    }}
+    .field-label {{
+        color: {t_subtext} !important;
+    }}
 
     .hero-header {
         background: #0f172a;
