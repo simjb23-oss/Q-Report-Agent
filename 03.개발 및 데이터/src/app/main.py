@@ -397,34 +397,57 @@ st.markdown(f"""
         color: #ffffff !important;
     }}
 
-    /* 모든 Selectbox 및 드롭다운 컨트롤 (사이드바 & 메인 전면 해결) */
+    /* 모든 Selectbox 및 드롭다운 컨트롤 (사이드바 & 메인 전면 고대비 보장) */
     [data-baseweb="select"],
     [data-baseweb="select"] > div,
+    [data-baseweb="select"] div,
+    .stSelectbox,
+    .stSelectbox > div,
     .stSelectbox > div > div {{
         background-color: #ffffff !important;
-        color: #0f172a !important;
         border-radius: 8px !important;
         border: 1px solid #cbd5e1 !important;
     }}
-    [data-baseweb="select"] * {{
+    /* 셀렉트박스 내부 텍스트, 값, 플레이스홀더, 아이콘 모두 선명한 칠흑 먹색 강제 */
+    [data-baseweb="select"] *,
+    .stSelectbox *,
+    .stSelectbox span,
+    .stSelectbox div,
+    .stSelectbox p,
+    [data-baseweb="select"] span,
+    [data-baseweb="select"] [aria-selected="true"] {{
         color: #0f172a !important;
-        font-weight: 600 !important;
+        -webkit-text-fill-color: #0f172a !important;
+        font-weight: 700 !important;
+        font-size: 13px !important;
+        opacity: 1 !important;
     }}
     /* 드롭다운 펼침 메뉴(팝오버/메뉴 리스트) */
     [data-baseweb="popover"],
     [data-baseweb="menu"],
+    div[role="listbox"],
     ul[role="listbox"],
     li[role="option"] {{
         background-color: #ffffff !important;
         color: #0f172a !important;
     }}
+    [data-baseweb="popover"] *,
+    [data-baseweb="menu"] *,
     li[role="option"] * {{
         color: #0f172a !important;
+        -webkit-text-fill-color: #0f172a !important;
+        font-weight: 600 !important;
+        opacity: 1 !important;
     }}
     li[role="option"]:hover,
     li[role="option"][aria-selected="true"] {{
         background-color: #e2e8f0 !important;
+    }}
+    li[role="option"]:hover *,
+    li[role="option"][aria-selected="true"] * {{
         color: #0284c7 !important;
+        -webkit-text-fill-color: #0284c7 !important;
+        font-weight: 800 !important;
     }}
 
     /* 입력 폼 및 텍스트 영역 */
