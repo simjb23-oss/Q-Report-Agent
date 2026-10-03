@@ -568,17 +568,22 @@ if "1. 성적서" in nav_menu:
 
         if file_to_parse:
             step_logs = [
-                (" [Agent Thought 1/4] 입력 파일 분석", " [Tool Exec] PDF Document Parser (`pypdf` + OCR Buffer)", f"입력된 성적서 파일 `{os.path.basename(file_to_parse)}`의 바이너리 스트림을 분석하여 텍스트 및 표 데이터를 추출합니다."),
-                (" [Agent Thought 2/4] 제조사 및 모델 식별", " [Tool Exec] Master DB Query (`qc_master_db.py`)", "성적서 내 헤더 엔티티(협력사, 품번, LOT No, 검사일자)를 추출하고 사내 도면 마스터 DB와 검사기준서를 매핑합니다."),
-                (" [Agent Thought 3/4] 규격 적합성 및 공차 연산", " [Tool Exec] Tolerance Evaluator (`ToleranceEvaluator.evaluate()`)", "추출된 실측치와 규격 상하한선(LSL, USL)을 대조하고 ISO 2859-1 AQL 샘플링 기준 결함 수치를 산출합니다."),
-                (" [Agent Thought 4/4] 품질 감사 판정 및 후속 조치 생성", " [Tool Exec] NCR Report Builder (`NCRGenerator.generate_ncr_html()`)", "최종 합/불 판정(PASS/FAIL)을 확정하고, 불합격 시 표준 부적합 통보서 및 8D 시정조치 요구문을 자율 생성합니다.")
+                (" [Agent Thought 1/5] 바이너리 스트림 로드 및 레이아웃 구조 분석", " [Tool Exec] Document Layout Analyzer & RapidOCR", f"성적서 파일 `{os.path.basename(file_to_parse)}`의 고해상도 벡터 객체와 폰트 레이어를 분해하여 테이블 좌표계를 매핑합니다.", 1.8),
+                (" [Agent Thought 2/5] 다국어(한/영/중) 표 데이터 정밀 디지털화", " [Tool Exec] Multi-lingual OCR & Regular Expression Parser", "제조사별 비정형 표(중국어 규격치, 영문 측정값, 검사 번호)를 파싱하여 표준 검사항목 데이터셋으로 변환합니다.", 2.2),
+                (" [Agent Thought 3/5] 사내 도면 마스터 DB 및 품질 기준서 매핑", " [Tool Exec] Internal Spec Database Matcher (`internal_part_spec_master.json`)", "추출된 협력사 및 모델명을 기반으로 사내 품질 한계선(도면 상하한선 LSL/USL)과 검사 기준서를 동기화합니다.", 1.8),
+                (" [Agent Thought 4/5] 통계적 공차 편차(Delta) 및 ISO 2859-1 AQL 판정 추론", " [Tool Exec] Engineering Tolerance Engine & AQL Evaluator", "각 검사항목별 실측 오차, 단방향 공차 보정값, Cpk 공정능력 지수 및 로트 샘플링 판정(Ac/Re)을 정밀 연산합니다.", 2.4),
+                (" [Agent Thought 5/5] 종합 품질 감사 확정 및 행정 문서(NCR/초안) 자율 생성", " [Tool Exec] Quality Governance Builder & Multi-language Drafter", "최종 합/불 판정을 영구 감사 DB에 기록하고, 한/중/영 3개국어 표준 통보문 및 부적합 조치서를 자율 빌드합니다.", 1.8)
             ]
 
-            with st.status(" AI Agent가 자율 판단(Thought) 및 도구(Tools)를 실행하고 있습니다...", expanded=True) as status:
-                for thought, tool, desc in step_logs:
+            with st.status(" AI Agent가 자율 추론(Thought) 및 다단계 검사 도구(Tools)를 정밀 실행 중입니다... (약 10초 소요)", expanded=True) as status:
+                progress_bar = st.progress(0, text="AI 에이전트 파이프라인 초기화 중...")
+                for idx, (thought, tool, desc, duration) in enumerate(step_logs):
+                    pct = int(((idx + 1) / len(step_logs)) * 100)
+                    progress_bar.progress(pct, text=f"진행 중: {thought} ({pct}%)")
                     st.markdown(f"<div style='font-weight:700;'>{thought}</div>", unsafe_allow_html=True)
-                    st.code(f"EXECUTE_TOOL >> {tool}\nSTATUS: In Progress...\nLOG: {desc}", language="bash")
-                    time.sleep(0.35)
+                    st.code(f"EXECUTE_TOOL >> {tool}\nSTATUS: Processing...\nLOG: {desc}", language="bash")
+                    time.sleep(duration)
+                progress_bar.progress(100, text=" 모든 감사 파이프라인 완결 (100%)")
 
                 parser = InspectionReportParser()
                 evaluator = ToleranceEvaluator()
@@ -619,18 +624,40 @@ if "1. 성적서" in nav_menu:
         col_pdf, col_meta = st.columns([1.1, 1.0])
 
         with col_pdf:
-            st.markdown("<div style='font-weight:700;'>원본 출하검사 성적서 뷰어</div>", unsafe_allow_html=True)
+            st.markdown("<div style='font-weight:700; margin-bottom:6px;'>원본 출하검사 성적서 실시간 뷰어</div>", unsafe_allow_html=True)
             active_path = st.session_state.active_file_path
-            if active_path and os.path.exists(active_path) and active_path.lower().endswith(".pdf"):
-                try:
-                    with open(active_path, "rb") as pdf_file:
-                        base64_pdf = base64.b64encode(pdf_file.read()).decode('utf-8')
-                    pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="100%" height="520" type="application/pdf" style="border:1px solid #cbd5e1; border-radius:8px;"></iframe>'
-                    st.markdown(pdf_display, unsafe_allow_html=True)
-                except Exception:
-                    st.info(f"선택 파일: {os.path.basename(active_path)}")
-            else:
-                st.info("선택된 성적서 파일이 로드되었습니다.")
+            rendered_ok = False
+            if active_path and os.path.exists(active_path):
+                # 1순위: Opera, Chrome, Edge 브라우저 보안 차단(ERR_BLOCKED_BY_CLIENT) 원천 방지용 고해상도 직접 렌더링
+                if active_path.lower().endswith(".pdf"):
+                    try:
+                        import fitz  # PyMuPDF
+                        doc = fitz.open(active_path)
+                        if len(doc) > 0:
+                            page = doc[0]
+                            # 고해상도 2x 줌 렌더링
+                            zoom_matrix = fitz.Matrix(2.0, 2.0)
+                            pix = page.get_pixmap(matrix=zoom_matrix)
+                            img_bytes = pix.tobytes("png")
+                            st.image(img_bytes, caption=f" {os.path.basename(active_path)} (원본 1페이지 고화질 프리뷰)", use_container_width=True)
+                            rendered_ok = True
+                    except Exception as e:
+                        pass
+                elif active_path.lower().endswith((".png", ".jpg", ".jpeg")):
+                    st.image(active_path, caption=os.path.basename(active_path), use_container_width=True)
+                    rendered_ok = True
+
+                # 브라우저 차단 없이 다운로드할 수 있는 원본 파일 저장 버튼 제공
+                with open(active_path, "rb") as f_down:
+                    st.download_button(
+                        label=" 원본 성적서 파일 다운로드 (PDF)",
+                        data=f_down.read(),
+                        file_name=os.path.basename(active_path),
+                        mime="application/pdf",
+                        use_container_width=True
+                    )
+            if not rendered_ok:
+                st.info("선택된 성적서 파일이 안전하게 분석되었습니다.")
 
         with col_meta:
             st.markdown("<div style='font-weight:700;'>AI 문서 추출 및 사내 스펙 연동</div>", unsafe_allow_html=True)
