@@ -105,7 +105,7 @@ QC_MASTER_SPECS = {
     "CJ-B03": {
         "product_name": "전자동 전동스퀴저 CJ-B03",
         "category": "전동스퀴저",
-        "supplier": "필립전기 (PHILP / 余姚市菲尔浦电器)",
+        "supplier": "필립전기 (FEIPU / 余姚市菲普智能电器)",
         "inspection_spec_no": "MIL-STD-105E II",
         "aql": {
             "critical": 0,

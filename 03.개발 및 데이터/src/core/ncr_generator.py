@@ -274,7 +274,13 @@ class NCRGenerator:
 
             status_cls = "pass" if it.get("status") == "PASS" else ("fail" if it.get("status") == "NG" else "hold")
 
-            delta_str = f"({it.get('delta', 0):+0.2f})" if it.get('delta') is not None else ""
+            raw_d = it.get('delta')
+            if isinstance(raw_d, (int, float)):
+                delta_str = f"({raw_d:+0.2f})"
+            elif raw_d not in (None, '', '-'):
+                delta_str = f"({raw_d})"
+            else:
+                delta_str = "" 
 
             status_bg = "#dcfce7; color:#166534;" if status_cls == "pass" else ("#fee2e2; color:#991b1b;" if status_cls == "fail" else "#fef3c7; color:#92400e;")
 

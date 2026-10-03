@@ -9,8 +9,62 @@ import json
 from datetime import datetime
 from typing import Dict, Any, List
 
-DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_DATA_DIR = os.path.abspath(os.path.join(CURRENT_DIR, "..", "..", "data"))
+if not os.path.exists(PROJECT_DATA_DIR):
+    PROJECT_DATA_DIR = os.path.abspath(os.path.join(CURRENT_DIR, "..", "data"))
+DATA_DIR = PROJECT_DATA_DIR
 HISTORY_FILE = os.path.join(DATA_DIR, "audit_history.json")
+
+CONFIG_FILE = os.path.join(DATA_DIR, "sheet_config.json")
+
+def get_sheet_config() -> dict:
+    """구글 시트 연동 설정 로드"""
+    if os.path.exists(CONFIG_FILE):
+        try:
+            with open(CONFIG_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            pass
+    return {"webhook_url": "", "sheet_url": ""}
+
+def sync_to_google_sheet(record: dict, webhook_url: str = None) -> (bool, str):
+    """단일 검사 기록을 구글 스프레드시트에 전송 (모듈 레벨 래퍼)"""
+    mgr = AuditManager()
+    return mgr.sync_to_google_sheet(record, webhook_url)
+
+def sync_all_to_google_sheet(history: list = None, webhook_url: str = None) -> dict:
+    """누적된 전체 이력을 구글 시트에 일괄 동기화 (모듈 레벨 래퍼)"""
+    mgr = AuditManager()
+    if not webhook_url:
+        cfg = get_sheet_config()
+        webhook_url = cfg.get("webhook_url", "")
+    
+    if not webhook_url:
+        return {"status": "error", "message": "구글 웹훅 URL이 설정되지 않았습니다.", "count": 0}
+    
+    target_list = history if history is not None else mgr.load_all()
+    if not target_list:
+        return {"status": "warning", "message": "동기화할 검사 이력이 없습니다.", "count": 0}
+        
+    cnt = 0
+    for item in reversed(target_list):
+        ok, _ = mgr.sync_to_google_sheet(item, webhook_url)
+        if ok:
+            cnt += 1
+    return {"status": "success", "count": cnt, "message": f"{cnt}건 동기화 성공"}
+
+def save_sheet_config(webhook_url: str, sheet_url: str = "") -> bool:
+    """구글 시트 연동 설정 저장"""
+    try:
+        data = {"webhook_url": webhook_url.strip(), "sheet_url": sheet_url.strip()}
+        with open(CONFIG_FILE, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+        return True
+    except Exception as e:
+        print(f"Error saving sheet config: {e}")
+        return False
+
 
 
 def get_default_history() -> List[Dict[str, Any]]:
@@ -175,3 +229,65 @@ class AuditManager:
             "hold_count": hold_count,
             "pass_rate": pass_rate
         }
+
+    def sync_to_google_sheet(self, record: Dict[str, Any], webhook_url: str = None) -> (bool, str):
+        """단일 검사 기록을 구글 스프레드시트에 전송 (Google Apps Script Webhook)"""
+        if not webhook_url:
+            cfg = get_sheet_config()
+            webhook_url = cfg.get("webhook_url", "")
+        
+        if not webhook_url:
+            return False, "Webhook URL이 설정되지 않았습니다."
+        
+        try:
+            import requests
+            payload = {"action": "append", "data": record}
+            resp = requests.post(webhook_url, json=payload, timeout=8)
+            if resp.status_code in [200, 302]:
+                return True, "구글 스프레드시트 동기화 성공"
+            return False, f"HTTP 상태 코드: {resp.status_code}"
+        except Exception as e:
+            return False, f"동기화 오류: {str(e)}"
+
+    def sync_all_to_google_sheet(self, webhook_url: str = None) -> (int, str):
+        """누적된 전체 이력을 구글 시트에 일괄 동기화"""
+        history = self.load_all()
+        if not history:
+            return 0, "동기화할 이력이 없습니다."
+        
+        success_count = 0
+        for item in reversed(history):
+            ok, _ = self.sync_to_google_sheet(item, webhook_url)
+            if ok:
+                success_count += 1
+        return success_count, f"{success_count}건 동기화 완료"
+
+
+    def fetch_sheet_data_via_csv(self) -> List[Dict[str, Any]]:
+        """구글 스프레드시트 발행(pub) CSV 엔드포인트에서 라이브 데이터 추출"""
+        cfg = get_sheet_config()
+        sheet_url = cfg.get("sheet_url", "")
+        if not sheet_url:
+            return []
+            
+        csv_url = sheet_url
+        if "pubhtml" in sheet_url:
+            csv_url = sheet_url.replace("pubhtml", "pub?output=csv")
+        elif "docs.google.com/spreadsheets/d/" in sheet_url and "/edit" in sheet_url:
+            doc_id = sheet_url.split("/d/")[1].split("/")[0]
+            csv_url = f"https://docs.google.com/spreadsheets/d/{doc_id}/export?format=csv"
+            
+        try:
+            import urllib.request
+            import csv
+            import io
+            req = urllib.request.Request(csv_url, headers={"User-Agent": "Mozilla/5.0"})
+            with urllib.request.urlopen(req, timeout=6) as resp:
+                if resp.status == 200:
+                    raw_text = resp.read().decode("utf-8")
+                    reader = csv.DictReader(io.StringIO(raw_text))
+                    return list(reader)
+        except Exception as e:
+            print(f"Error fetching sheet data via CSV: {e}")
+            
+        return []

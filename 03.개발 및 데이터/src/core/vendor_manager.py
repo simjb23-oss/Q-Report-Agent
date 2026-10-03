@@ -75,9 +75,9 @@ DEFAULT_VENDORS = [
         "notes": "국내 핵심 전략 협력사. 온도 제어 정밀도 우수."
     },
     {
-        "vendor_code": "VND-PHILP",
-        "vendor_name": "余姚市菲尔浦电器有限公司 (필립전기)",
-        "short_name": "PHILP (필립전기)",
+        "vendor_code": "VND-FEIPU",
+        "vendor_name": "余姚市菲普智能电器有限公司 (페이푸전기)",
+        "short_name": "FEIPU (페이푸전기)",
         "country": " 중국 (저장성 위야오)",
         "category": "전동 스퀴저 / 착즙기",
         "supplied_models": ["CJ-B03"],
@@ -126,6 +126,12 @@ class VendorManager:
         except Exception as e:
             print(f"Error saving vendors: {e}")
             return False
+
+    @classmethod
+    def find_vendor(cls, vendor_code_or_name: str) -> Optional[Dict[str, Any]]:
+        """클래스 메서드로 협력사 조회 편의 기능 제공"""
+        vm = cls()
+        return vm.get_vendor(vendor_code_or_name)
 
     def get_vendor(self, vendor_code_or_name: str) -> Optional[Dict[str, Any]]:
         """코드 또는 이름(약칭 포함)으로 협력사 단건 검색"""
@@ -241,3 +247,11 @@ class VendorManager:
                         v["quality_grade"] = "C"
                 break
         self.save_all(vendors)
+
+    def record_inspection(self, supplier_name: str, is_pass: bool, ng_reasons: Optional[List[str]] = None):
+        """호환용 메서드 (agent.py 및 외부 호출 지원)"""
+        self.record_inspection_result(supplier_name, is_pass)
+
+    def get_all_vendors(self) -> List[Dict[str, Any]]:
+        """호환용 메서드 (load_all 별칭)"""
+        return self.load_all()

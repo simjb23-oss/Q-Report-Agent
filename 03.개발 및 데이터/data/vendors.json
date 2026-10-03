@@ -3,7 +3,7 @@
     "vendor_code": "VND-HOTOEM",
     "vendor_name": "HOTOEM Electronics Co., Ltd.",
     "short_name": "HOTOEM",
-    "country": "🇨🇳 중국 (선전)",
+    "country": " 중국 (선전)",
     "category": "블렌더 / 믹서",
     "supplied_models": [
       "BL-E01"
@@ -15,9 +15,9 @@
     "contact_email": "qa.team@hotoem-sample.com",
     "contact_phone": "+86-755-8900-0000",
     "registered_date": "2024-03-15",
-    "last_inspection_date": "2026-09-29",
-    "total_inspections": 16,
-    "pass_count": 15,
+    "last_inspection_date": "2026-09-28",
+    "total_inspections": 15,
+    "pass_count": 14,
     "ncr_count": 1,
     "notes": "초고속 모터 특화 공급사. ISO 9001/14001 인증 보유."
   },
@@ -25,7 +25,7 @@
     "vendor_code": "VND-MYLUX",
     "vendor_name": "MYLUX Appliance Industrial",
     "short_name": "MYLUX",
-    "country": "🇨🇳 중국 (닝보)",
+    "country": " 중국 (닝보)",
     "category": "진공 블렌더 / 콤팩트 믹서",
     "supplied_models": [
       "BL-D01",
@@ -38,17 +38,17 @@
     "contact_email": "qa.team@mylux-sample.com",
     "contact_phone": "+86-574-8700-0000",
     "registered_date": "2023-08-20",
-    "last_inspection_date": "2026-10-02",
-    "total_inspections": 19,
+    "last_inspection_date": "2026-09-28",
+    "total_inspections": 18,
     "pass_count": 15,
-    "ncr_count": 4,
+    "ncr_count": 3,
     "notes": "용기 사출 외경 공차 편차 발생 이력 있어 강화검사 적용 중."
   },
   {
     "vendor_code": "VND-CRASTAL",
     "vendor_name": "(주)크리스탈 일렉트릭",
     "short_name": "CRASTAL",
-    "country": "🇰🇷 대한민국 (경남 창원)",
+    "country": " 대한민국 (경남 창원)",
     "category": "전기주전자 / 스마트 티마스터",
     "supplied_models": [
       "TM-HB1"
@@ -60,9 +60,9 @@
     "contact_email": "qa.team@crastal-sample.kr",
     "contact_phone": "055-200-0000",
     "registered_date": "2022-11-10",
-    "last_inspection_date": "2026-09-29",
-    "total_inspections": 13,
-    "pass_count": 12,
+    "last_inspection_date": "2026-09-28",
+    "total_inspections": 12,
+    "pass_count": 11,
     "ncr_count": 1,
     "notes": "국내 핵심 전략 협력사. 온도 제어 정밀도 우수."
   },
@@ -70,7 +70,7 @@
     "vendor_code": "VND-FEIPU",
     "vendor_name": "余姚市菲普智能电器有限公司 (FEIPU Tech)",
     "short_name": "FEIPU (페이푸전기)",
-    "country": "🇨🇳 중국 (저장성 위야오)",
+    "country": " 중국 (저장성 위야오)",
     "category": "전동 스퀴저 / 착즙기",
     "supplied_models": [
       "CJ-B03"
