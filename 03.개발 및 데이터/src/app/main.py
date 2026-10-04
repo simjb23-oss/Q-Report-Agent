@@ -226,8 +226,75 @@ with st.container(border=True):
     with col_h2:
         st.info("경남 제조 AI·AX 플랫폼")
 
-# 프로세스 안내
-st.caption("프로세스: 1 문서 수집/업로드 2 광학/텍스트 추출 3 사내 도면 스펙 매칭 4 ISO 2859-1 공차 판정 5 AI 위험도 진단 6 표준 NCR 자동 발행 7 이력 및 ROI 관제")
+# =============================================================
+# [동적 점등 프로세스 인디케이터 바]
+# =============================================================
+curr_step = 1
+if "2. 협력사" in nav_menu or "3. 과거 이력" in nav_menu or "4. 전사 동기화" in nav_menu:
+    curr_step = 7
+elif st.session_state.get("analysis_done", False):
+    curr_step = 6
+else:
+    curr_step = 1
+
+process_steps = [
+    (1, "문서 수집/업로드"),
+    (2, "광학/텍스트 추출"),
+    (3, "사내 도면 매칭"),
+    (4, "ISO 공차 판정"),
+    (5, "AI 위험도 진단"),
+    (6, "NCR/초안 발행"),
+    (7, "이력 & ROI 관제")
+]
+
+step_cards_html = []
+for num, title in process_steps:
+    if num < curr_step:
+        # 완료된 이전 단계 (그린 완료 뱃지)
+        border_c = "rgba(16, 185, 129, 0.4)"
+        bg_c = "rgba(16, 185, 129, 0.12)"
+        num_bg = "#10B981"
+        num_c = "#FFFFFF"
+        txt_c = "#34D399"
+        shadow = "none"
+        prefix = "✓"
+    elif num == curr_step:
+        # 현재 활성화된 진행 단계 (형광 블루 점등 펄스 & 강조)
+        border_c = "#38BDF8"
+        bg_c = "rgba(14, 165, 233, 0.22)"
+        num_bg = "#0284C7"
+        num_c = "#FFFFFF"
+        txt_c = "#F0F9FF"
+        shadow = "0 0 12px rgba(56, 189, 248, 0.45)"
+        prefix = f"{num}"
+    else:
+        # 아직 대기 중인 단계 (어두운 회색)
+        border_c = "rgba(255, 255, 255, 0.08)"
+        bg_c = "rgba(30, 41, 59, 0.4)"
+        num_bg = "#334155"
+        num_c = "#94A3B8"
+        txt_c = "#64748B"
+        shadow = "none"
+        prefix = f"{num}"
+
+    step_card = f"""
+    <div style="flex: 1; min-width: 95px; margin: 2px 3px; padding: 6px 4px; background: {bg_c}; border: 1px solid {border_c}; border-radius: 6px; text-align: center; box-shadow: {shadow}; transition: all 0.3s ease;">
+        <div style="display: inline-block; width: 17px; height: 17px; line-height: 17px; border-radius: 50%; background: {num_bg}; color: {num_c}; font-size: 0.65rem; font-weight: 800; margin-bottom: 3px;">{prefix}</div>
+        <div style="font-size: 0.72rem; font-weight: 700; color: {txt_c}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{title}</div>
+    </div>
+    """
+    step_cards_html.append(step_card)
+
+st.markdown(
+    f"""
+    <div style="margin: 6px 0 12px 0;">
+        <div style="display: flex; justify-content: space-between; align-items: stretch; width: 100%;">
+            {''.join(step_cards_html)}
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 # =============================================================
 # [화면 1] 성적서 자율 판독
