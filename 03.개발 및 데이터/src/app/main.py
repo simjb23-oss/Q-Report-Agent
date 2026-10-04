@@ -199,16 +199,16 @@ with st.sidebar:
             """
             <div style="font-size: 0.8rem; line-height: 1.6;">
                 <div style="display: flex; justify-content: space-between; align-items: center; padding: 3px 0; border-bottom: 1px solid rgba(255,255,255,0.08);">
-                    <span style="color: #94A3B8;">RapidOCR Engine</span>
-                    <span style="color: #34D399; font-weight: 700; background: rgba(16,185,129,0.15); padding: 1px 7px; border-radius: 4px; font-size: 0.72rem;">Active</span>
+                    <span style="color: #94A3B8;">PDF/문서 광학 OCR</span>
+                    <span style="color: #34D399; font-weight: 700; background: rgba(16,185,129,0.15); padding: 1px 7px; border-radius: 4px; font-size: 0.72rem;">Ready (Active)</span>
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; padding: 3px 0; border-bottom: 1px solid rgba(255,255,255,0.08);">
-                    <span style="color: #94A3B8;">Cloud Webhook</span>
-                    <span style="color: #34D399; font-weight: 700; background: rgba(16,185,129,0.15); padding: 1px 7px; border-radius: 4px; font-size: 0.72rem;">Synced</span>
+                    <span style="color: #94A3B8;">도면 공차 마스터 DB</span>
+                    <span style="color: #60A5FA; font-weight: 700; background: rgba(59,130,246,0.15); padding: 1px 7px; border-radius: 4px; font-size: 0.72rem;">24 Cases (Loaded)</span>
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; padding: 3px 0;">
-                    <span style="color: #94A3B8;">Memory Cache</span>
-                    <span style="color: #60A5FA; font-weight: 700; background: rgba(59,130,246,0.15); padding: 1px 7px; border-radius: 4px; font-size: 0.72rem;">24 Cases</span>
+                    <span style="color: #94A3B8;">전사 클라우드 동기화</span>
+                    <span style="color: #34D399; font-weight: 700; background: rgba(16,185,129,0.15); padding: 1px 7px; border-radius: 4px; font-size: 0.72rem;">Synced (Live)</span>
                 </div>
             </div>
             """,
