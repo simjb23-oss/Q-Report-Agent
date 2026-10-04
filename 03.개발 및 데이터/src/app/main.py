@@ -133,9 +133,25 @@ with st.sidebar:
         st.subheader("Q-Report Agent")
         st.caption("칼퇴보증 팀 | 제조 AX 품질 감사 AI")
         if st.session_state.get("analysis_done"):
-            st.success("● 상태: AUDIT_COMPLETE (분석 완료)")
+            st.markdown(
+                """
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 3px 8px; background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3); border-radius: 5px; font-size: 0.74rem; margin-top: 4px;">
+                    <span style="color: #94A3B8; font-weight: 600;">시스템 상태</span>
+                    <span style="color: #34D399; font-weight: 700;">AUDIT_COMPLETE</span>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
         else:
-            st.info("● 상태: IDLE (시스템 준비 완료)")
+            st.markdown(
+                """
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 3px 8px; background: rgba(59,130,246,0.12); border: 1px solid rgba(59,130,246,0.3); border-radius: 5px; font-size: 0.74rem; margin-top: 4px;">
+                    <span style="color: #94A3B8; font-weight: 600;">시스템 상태</span>
+                    <span style="color: #60A5FA; font-weight: 700;">IDLE (준비 완료)</span>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
 
     # 2. 메뉴 네비게이션
     st.markdown("### 메뉴 네비게이션")
