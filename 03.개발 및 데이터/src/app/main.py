@@ -50,62 +50,66 @@ st.markdown("""
     --secondary-background-color: #1E293B !important;
 }
 
-/* 1. 메인 화면 전체 배경 & 글자 */
-.stApp, [data-testid="stAppViewContainer"] {
+/* 1. 메인 화면 및 사이드바 배경/글자 완전 고정 (브라우저 라이트/다크 모드 강제 통일) */
+.stApp, [data-testid="stAppViewContainer"], [data-testid="stHeader"] {
     background-color: #0E1117 !important;
     color: #F8FAFC !important;
 }
 
-/* 2. 모든 텍스트 요소를 흰색으로 강제 */
-.stApp p, .stApp span, .stApp div, .stApp label, .stApp h1, .stApp h2, .stApp h3, .stApp h4 {
+/* 2. 일반 텍스트는 밝은 오프화이트 고정 (입력창 제외) */
+.stApp p, .stApp label, .stApp h1, .stApp h2, .stApp h3, .stApp h4 {
     color: #F8FAFC !important;
 }
 
-/* 3. 사이드바 배경 및 일반 글자 */
-[data-testid="stSidebar"] {
+/* 3. 사이드바 배경 및 텍스트 */
+[data-testid="stSidebar"], [data-testid="stSidebarUserContent"] {
     background-color: #1E293B !important;
 }
 [data-testid="stSidebar"] p,
-[data-testid="stSidebar"] span,
 [data-testid="stSidebar"] label,
 [data-testid="stSidebar"] h1,
 [data-testid="stSidebar"] h2,
 [data-testid="stSidebar"] h3,
-[data-testid="stSidebar"] h4,
-[data-testid="stSidebar"] div:not([data-baseweb="select"]):not([data-baseweb="select"] *) {
+[data-testid="stSidebar"] h4 {
     color: #F8FAFC !important;
 }
 
-/* 4. 입력창 & 셀렉트박스 (사이드바/메인 공통): 흰 배경 + 칠흑 블랙 글씨 강제 */
+/* 4. 입력창 & 셀렉트박스 (어떤 브라우저에서도 흰 배경 + 선명한 검정 글씨 보장) */
 input, textarea, select, [data-baseweb="select"],
 [data-testid="stSidebar"] input,
 [data-testid="stSidebar"] textarea,
 [data-testid="stSidebar"] select,
 [data-testid="stSidebar"] [data-baseweb="select"] {
     background-color: #FFFFFF !important;
-    color: #000000 !important;
+    color: #0F172A !important;
 }
 
-/* 셀렉트박스 및 인풋 내부의 모든 텍스트/스팬/태그에 완전한 검은색 강제 */
-input *, textarea *, select *, [data-baseweb="select"] *,
-[data-testid="stSidebar"] input *,
-[data-testid="stSidebar"] textarea *,
-[data-testid="stSidebar"] select *,
-[data-testid="stSidebar"] [data-baseweb="select"] *,
-[data-testid="stSidebar"] [data-baseweb="select"] span,
-[data-testid="stSidebar"] [data-baseweb="select"] div {
-    color: #000000 !important;
-    -webkit-text-fill-color: #000000 !important;
+/* 인풋/셀렉트박스 내부 글자 강제 */
+input, input::placeholder, textarea, textarea::placeholder {
+    color: #0F172A !important;
+    -webkit-text-fill-color: #0F172A !important;
+}
+[data-baseweb="select"] * {
+    color: #0F172A !important;
+    -webkit-text-fill-color: #0F172A !important;
     font-weight: 600 !important;
 }
 
-/* 드롭다운 옵션 메뉴 팝오버 */
+/* 드롭다운 옵션 팝오버 목록 */
 [data-baseweb="popover"], [data-baseweb="popover"] *,
 [data-baseweb="menu"], [data-baseweb="menu"] *,
 li[role="option"], li[role="option"] * {
     background-color: #FFFFFF !important;
-    color: #000000 !important;
-    -webkit-text-fill-color: #000000 !important;
+    color: #0F172A !important;
+    -webkit-text-fill-color: #0F172A !important;
+}
+
+/* 5. 메트릭(st.metric) 라벨 및 값 고대비 보정 */
+[data-testid="stMetricLabel"] * {
+    color: #94A3B8 !important;
+}
+[data-testid="stMetricValue"] * {
+    color: #F8FAFC !important;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -272,8 +276,8 @@ for num, title in process_steps:
         border_c = "rgba(255, 255, 255, 0.08)"
         bg_c = "rgba(30, 41, 59, 0.4)"
         num_bg = "#334155"
-        num_c = "#94A3B8"
-        txt_c = "#64748B"
+        num_c = "#CBD5E1"
+        txt_c = "#94A3B8"
         shadow = "none"
         prefix = f"{num}"
 
