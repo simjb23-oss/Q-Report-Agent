@@ -277,24 +277,17 @@ for num, title in process_steps:
         shadow = "none"
         prefix = f"{num}"
 
-    step_card = f"""
-    <div style="flex: 1; min-width: 95px; margin: 2px 3px; padding: 6px 4px; background: {bg_c}; border: 1px solid {border_c}; border-radius: 6px; text-align: center; box-shadow: {shadow}; transition: all 0.3s ease;">
-        <div style="display: inline-block; width: 17px; height: 17px; line-height: 17px; border-radius: 50%; background: {num_bg}; color: {num_c}; font-size: 0.65rem; font-weight: 800; margin-bottom: 3px;">{prefix}</div>
-        <div style="font-size: 0.72rem; font-weight: 700; color: {txt_c}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{title}</div>
-    </div>
-    """
+    step_card = (
+        f'<div style="flex: 1; min-width: 95px; margin: 2px 3px; padding: 6px 4px; background: {bg_c}; border: 1px solid {border_c}; border-radius: 6px; text-align: center; box-shadow: {shadow}; transition: all 0.3s ease;">'
+        f'<div style="display: inline-block; width: 17px; height: 17px; line-height: 17px; border-radius: 50%; background: {num_bg}; color: {num_c}; font-size: 0.65rem; font-weight: 800; margin-bottom: 3px;">{prefix}</div>'
+        f'<div style="font-size: 0.72rem; font-weight: 700; color: {txt_c}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{title}</div>'
+        '</div>'
+    )
     step_cards_html.append(step_card)
 
-st.markdown(
-    f"""
-    <div style="margin: 6px 0 12px 0;">
-        <div style="display: flex; justify-content: space-between; align-items: stretch; width: 100%;">
-            {''.join(step_cards_html)}
-        </div>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+combined_cards_html = "".join(step_cards_html)
+final_process_bar_html = f'<div style="margin: 6px 0 12px 0;"><div style="display: flex; justify-content: space-between; align-items: stretch; width: 100%;">{combined_cards_html}</div></div>'
+st.markdown(final_process_bar_html, unsafe_allow_html=True)
 
 # =============================================================
 # [화면 1] 성적서 자율 판독
