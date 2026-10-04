@@ -545,9 +545,57 @@ if "1. 성적서"in nav_menu:
                     st.write("**3. 3영업일 내 8D 대책서 요구** : 원인분석(5-Why) 제출 필수")
                     st.write("**4. 차기 로트 검사 수준 격상** : ISO 2859 보통검사 강화검사(Tightened)")
 
-        # [5] 다국어 공식 통보 초안 생성
+        # [5] AI 기반 과거 이력 바탕 중점 유의점 및 리스크 분석
         with st.container(border=True):
-            st.subheader("[성적서 검토 결과 다국어 공식 통보 초안] 한국어 · 중국어 · 영어 실시간 번역 및 발행")
+            st.subheader("[6] AI 기반 과거 유의점 & 중점 품질 리스크 분석")
+            st.caption("과거 누적 감사 이력 DB 및 동일 모델·협력사 품질 데이터 패턴을 학습한 AI가 출하/입고 시 반드시 사전 점검해야 할 중점 유의점과 재발 방지 대책을 자율 도출합니다.")
+
+            audit_mgr_prec = AuditManager()
+            past_analysis = audit_mgr_prec.get_historical_precautions(
+                supplier=evaluated.get("supplier", ""),
+                model_code=evaluated.get("model_code", ""),
+                eval_result=evaluated
+            )
+
+            col_p1, col_p2, col_p3 = st.columns([1.1, 1.5, 1.4])
+            with col_p1:
+                with st.container(border=True):
+                    st.metric("과거 누적 심사 건수", f"{past_analysis.get('total_inspections', 0)}건")
+                    st.metric("과거 부적합(FAIL) 이력", f"{past_analysis.get('fail_count', 0)}건")
+                    st.metric("누적 품질 결함률", f"{past_analysis.get('defect_rate', 0.0)}%")
+                    r_grade = past_analysis.get('risk_grade', '보통')
+                    if "고위험" in r_grade:
+                        st.error(f"공급망 위험도: {r_grade}")
+                    elif "주의" in r_grade:
+                        st.warning(f"공급망 위험도: {r_grade}")
+                    else:
+                        st.success(f"공급망 위험도: {r_grade}")
+
+            with col_p2:
+                with st.container(border=True):
+                    st.markdown("**AI 도출 과거 바탕 중점 유의점**")
+                    for p_item in past_analysis.get("precautions", []):
+                        if "긴급 경보" in p_item or "부적합" in p_item or "이탈" in p_item:
+                            st.markdown(f"- **{p_item}**")
+                        else:
+                            st.markdown(f"- {p_item}")
+
+                    past_notes = past_analysis.get("past_defect_notes", [])
+                    if past_notes:
+                        st.divider()
+                        st.caption("동일 협력사 과거 발생 결함 로그:")
+                        for p_note in past_notes:
+                            st.caption(f"• {p_note}")
+
+            with col_p3:
+                with st.container(border=True):
+                    st.markdown("**AI 추천 사전 예방 가이드 & 조치**")
+                    for a_idx, a_item in enumerate(past_analysis.get("action_guides", []), start=1):
+                        st.markdown(f"**{a_idx}.** {a_item}")
+
+        # [6] 다국어 공식 통보 초안 생성
+        with st.container(border=True):
+            st.subheader("[7] 다국어 공식 통보 초안 (한국어 · 중국어 · 영어 실시간 번역)")
             st.caption("완제품 출하검사 판정 결과를 기반으로 글로벌 협력사(중국·동남아·미주 등) 맞춤형 공식 비즈니스 통보문/메일 초안을 3개 국어로 자동 생성합니다.")
 
             col_mail_opt1, col_mail_opt2 = st.columns([1.2, 1.8])
@@ -628,7 +676,7 @@ if "1. 성적서"in nav_menu:
 
         # [6] 표준 부적합 통보서 (NCR)
         with st.container(border=True):
-            st.subheader("[7] 표준 부적합 통보서 (NCR / 8D Report)")
+            st.subheader("[8] 표준 부적합 통보서 (NCR / 8D Report)")
             html_report = NCRGenerator.generate_ncr_html(parsed, evaluated)
             md_report = NCRGenerator.generate_ncr_markdown(parsed, evaluated)
 

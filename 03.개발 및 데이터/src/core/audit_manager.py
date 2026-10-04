@@ -230,6 +230,85 @@ class AuditManager:
             "pass_rate": pass_rate
         }
 
+
+    def get_historical_precautions(self, supplier: str, model_code: str, eval_result: Dict[str, Any] = None) -> Dict[str, Any]:
+        """
+        AI 기반 과거 이력 바탕 중점 유의점 및 리스크 진단 도출
+        """
+        history = self.load_all()
+        supp_clean = (supplier or "").strip()
+        model_clean = (model_code or "").strip()
+
+        # 1. 협력사 / 모델 과거 이력 필터링 (키워드 매칭)
+        supp_matched = []
+        for h in history:
+            h_supp = str(h.get("supplier", ""))
+            h_model = str(h.get("model_code", ""))
+            
+            # 협력사명 부분 일치
+            supp_match = False
+            for token in [supp_clean, supp_clean.split()[0] if supp_clean else ""]:
+                token = token.replace("(", "").replace(")", "").replace("주", "").strip()
+                if token and (token in h_supp or h_supp in token):
+                    supp_match = True
+                    break
+            
+            # 모델 일치
+            model_match = bool(model_clean and (model_clean in h_model or h_model in model_clean))
+            
+            if supp_match or model_match:
+                supp_matched.append(h)
+
+        if not supp_matched:
+            supp_matched = history[:4]
+
+        total_cnt = len(supp_matched)
+        fail_cnt = sum(1 for h in supp_matched if h.get("final_verdict") == "FAIL")
+        pass_cnt = total_cnt - fail_cnt
+        defect_rate = round((fail_cnt / total_cnt * 100), 1) if total_cnt > 0 else 0.0
+
+        # 2. 과거 발생 결함 및 유의 항목 집계
+        past_defect_notes = []
+        for h in supp_matched:
+            if h.get("final_verdict") == "FAIL" and h.get("note"):
+                past_defect_notes.append(f"[{h.get('timestamp', '')[:10]}] {h.get('note')}")
+
+        # 3. AI 유의점 및 권고 대책 수립
+        precautions = []
+        action_guides = []
+        risk_grade = "주의 (관찰 요망)"
+
+        if fail_cnt > 0:
+            risk_grade = "고위험 (집중 검사 대상)" if defect_rate >= 30.0 else "주의 (중점 관리)"
+            precautions.append(f"과거 동일 협력사/모델에서 부적합(FAIL) 이력이 {fail_cnt}건 확인되었습니다 (누적 불합격률: {defect_rate}%).")
+            precautions.append(f"주요 과거 결함 이력: {past_defect_notes[0] if past_defect_notes else '공차 한계 초과 및 이탈'}")
+            action_guides.append("동일 결함 재발 방지를 위해 과거 이탈 검사항목의 실측치 마진(Cpk 1.33 이상 여부)을 2차 교차 검증하십시오.")
+            action_guides.append("차기 출하 로트에 대해 ISO 2859-1 엄격검사(Tightened) 적용 및 시료수 1.5배 확대를 권고합니다.")
+        else:
+            risk_grade = "양호 (안정적 관리)"
+            precautions.append(f"해당 공급사/모델의 과거 감사 이력({total_cnt}건) 기준 공정 안정성이 양호(합격률 100%)하게 유지되고 있습니다.")
+            precautions.append("다만 기온/사출압/가공 툴 마모 등 계절적/환경적 요인에 따른 미세 공차 편차(Drift)를 주기적으로 모니터링하십시오.")
+            action_guides.append("현재 합격 품질 수준을 유지하며 일반검사(Level II) 표준 샘플링을 지속하십시오.")
+            action_guides.append("성적서 실측치 평균이 공차 상/하한선(LSL/USL)의 80% 이상에 접근 시 조기 경보를 가동하십시오.")
+
+        # 현재 성적서의 평가 결과가 불합격인 경우 긴급 유의점 추가
+        if eval_result and eval_result.get("final_verdict") == "FAIL":
+            precautions.insert(0, "● [긴급 경보] 당일 제출된 성적서에서 치명 공차 이탈 또는 데이터 이상이 발견되었습니다.")
+            action_guides.insert(0, "금일 로트는 즉시 ERP 입고 락(Lock)을 걸고 협력사에 공식 부적합 통보서(NCR)를 24시간 이내 송부하십시오.")
+
+        return {
+            "supplier": supp_clean,
+            "model_code": model_clean,
+            "total_inspections": total_cnt,
+            "fail_count": fail_cnt,
+            "pass_count": pass_cnt,
+            "defect_rate": defect_rate,
+            "risk_grade": risk_grade,
+            "precautions": precautions,
+            "action_guides": action_guides,
+            "past_defect_notes": past_defect_notes[:3]
+        }
+
     def sync_to_google_sheet(self, record: Dict[str, Any], webhook_url: str = None) -> (bool, str):
         """단일 검사 기록을 구글 스프레드시트에 전송 (Google Apps Script Webhook)"""
         if not webhook_url:

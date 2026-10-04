@@ -1,5 +1,35 @@
 [
   {
+    "id": "AUDIT-2026-0014",
+    "timestamp": "2026-09-26 10:30:22",
+    "filename": "COA_Sample_04_SiliconeGasket_WARNING.pdf",
+    "supplier": "Samwoo Silicone Chemical",
+    "model_code": "SL-G102-SI",
+    "product_name": "방수 실리콘 패킹 (가스켓)",
+    "report_no": "SW-26-0925",
+    "order_qty": 4000,
+    "sample_qty": 125,
+    "final_verdict": "PASS",
+    "status_label": "[경고]",
+    "defect_count": 0,
+    "note": "경도(Hardness) 상한 53 Shore A에 근접(실측 52.6). 공정 변동성 주의 필요"
+  },
+  {
+    "id": "AUDIT-2026-0015",
+    "timestamp": "2026-09-27 14:15:00",
+    "filename": "COA_Sample_05_Excel_Fabricated_ALERT.xlsx",
+    "supplier": "(주)한성정밀",
+    "model_code": "INJ-H401-BK",
+    "product_name": "모터 하우징 커버 (사출품)",
+    "report_no": "LOT-20260924-F99",
+    "order_qty": 2500,
+    "sample_qty": 125,
+    "final_verdict": "FAIL",
+    "status_label": "[부적합]",
+    "defect_count": 1,
+    "note": "시료 1~3 측정치 동일(편차 0.00mm) 데이터 인위적 복사/위조 의심 ALERT"
+  },
+  {
     "id": "AUDIT-2026-0013",
     "timestamp": "2026-10-03 11:21:01",
     "filename": "COA_Sample_03_MotorShaft_NG_Critical.pdf",
