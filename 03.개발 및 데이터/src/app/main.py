@@ -183,11 +183,11 @@ with st.sidebar:
         engine_choice = st.radio(
             "• AI 추론 엔진",
             [
-                "Gemini 3.8 Flash (Multi-modal)",
-                "로컬 룰베이스 Fallback 강제 (시연용)"
+                "로컬 룰베이스 Fallback (오프라인용)",
+                "Gemini 3.8 Flash (Multi-modal Live)"
             ],
             index=0,
-            help="• Gemini 3.8 Flash: 비정형 성적서 시각 판독 LLM\n• 로컬 룰베이스 Fallback: 폐쇄망 및 무인 오프라인 Fail-Safe 엔진"
+            help="• 로컬 룰베이스 Fallback: 폐쇄망 및 무인 오프라인 환경을 위한 무과금 고속 Fail-Safe 엔진\n• Gemini 3.8 Flash: 비정형 성적서 시각 판독 멀티모달 LLM 엔진"
         )
 
     st.divider()
