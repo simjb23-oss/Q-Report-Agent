@@ -201,7 +201,7 @@ class EmailDrafter:
 {kwargs.get('custom_instructions', '없음')}
 
 [출력 양식 요구]
-반드시 다음 구조로 작성해 주세요:
+반드시 다음 구조로 작성해 주세요. (주의: 이메일 본문에는 가독성을 해치는 마크다운 볼드 기호 '**'를 절대 쓰지 마십시오):
 제목: [이메일 제목]
 (본문 시작)
 [수신 인사 및 소속]
@@ -229,6 +229,9 @@ class EmailDrafter:
             body_lines.append(line)
 
         body = "\n".join(body_lines).strip()
+        # AI 생성물 특유의 ** 기호 제거
+        subject = subject.replace("**", "")
+        body = body.replace("**", "")
         return subject, body
 
     @classmethod

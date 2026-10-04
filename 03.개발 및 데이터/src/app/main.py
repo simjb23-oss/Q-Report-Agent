@@ -352,7 +352,7 @@ if "1. 성적서"in nav_menu:
         uploaded_file = None
 
         with col_up:
-            st.markdown("** 신규 성적서 드래그 앤 드롭 업로드 (PDF / 이미지 / 엑셀)**")
+            st.markdown(" 신규 성적서 드래그 앤 드롭 업로드 (PDF / 이미지 / 엑셀)")
             uploaded_file = st.file_uploader(
                 "공급사 제출 검사성적서 파일 드래그 & 드롭",
                 type=["pdf", "png", "jpg", "xlsx"],
@@ -360,7 +360,7 @@ if "1. 성적서"in nav_menu:
             )
 
         with col_db:
-            st.markdown(f"** 실제 협력사 검사성적서 DB에서 즉시 선택 (총 {len(report_files)}건)**")
+            st.markdown(f" 실제 협력사 검사성적서 DB에서 즉시 선택 (총 {len(report_files)}건)")
             if report_files:
                 registered_vendors = list(dict.fromkeys([r[0] for r in report_files]))
                 sample_vendor_cats = ["전체 협력사 통합 보기"] + registered_vendors
@@ -413,7 +413,7 @@ if "1. 성적서"in nav_menu:
                 for idx, (thought, tool, desc, duration) in enumerate(step_logs):
                     pct = int(((idx + 1) / len(step_logs)) * 100)
                     progress_bar.progress(pct, text=f"진행 중: {thought} ({pct}%)")
-                    st.write(f"**{thought}**")
+                    st.write(f"{thought}")
                     st.code(f"EXECUTE_TOOL >> {tool}\nSTATUS: Processing...\nLOG: {desc}", language="bash")
                     time.sleep(duration)
                 progress_bar.progress(100, text="모든 감사 파이프라인 완결 (100%)")
@@ -473,7 +473,7 @@ if "1. 성적서"in nav_menu:
             col_pdf, col_meta = st.columns([1.1, 1.0])
 
             with col_pdf:
-                st.markdown("** 원본 출하검사 성적서 실시간 뷰어**")
+                st.markdown(" 원본 출하검사 성적서 실시간 뷰어")
                 active_path = st.session_state.active_file_path
                 rendered_ok = False
                 if active_path and os.path.exists(active_path):
@@ -506,7 +506,7 @@ if "1. 성적서"in nav_menu:
                     st.info("선택된 성적서 파일이 안전하게 분석되었습니다.")
 
             with col_meta:
-                st.markdown("** AI 문서 추출 및 사내 스펙 연동**")
+                st.markdown(" AI 문서 추출 및 사내 스펙 연동")
                 with st.container(border=True):
                     c_m1, c_m2 = st.columns(2)
                     c_m1.metric("제조 협력사", evaluated.get('supplier', '-'))
@@ -520,7 +520,7 @@ if "1. 성적서"in nav_menu:
                     c_m5.metric("적용 검사 기준서", evaluated.get('inspection_spec_no', '-'))
                     c_m6.metric("문서 추출 신뢰도", f"{parsed.get('confidence', 96.8)}%")
 
-                st.success(f"[도면 매칭 완료] 품번 **{evaluated.get('model_code')}** ({evaluated.get('product_name')})의 공차 마스터 DB와 100% 매핑되었습니다.")
+                st.success(f"[도면 매칭 완료] 품번 {evaluated.get('model_code')} ({evaluated.get('product_name')})의 공차 마스터 DB와 100% 매핑되었습니다.")
 
         # [2] 시험항목별 정밀 공차 판정표
         with st.container(border=True):
@@ -620,13 +620,13 @@ if "1. 성적서"in nav_menu:
             with st.container(border=True):
                 st.subheader("[6] AI 권고 후속조치 워크플로우")
                 if is_pass:
-                    st.write("**1. 출하 승인 등록** : ERP/MES에 검사 합격 정보 즉시 반영")
+                    st.write("1. 출하 승인 등록 : ERP/MES에 검사 합격 정보 즉시 반영")
                     st.write("**2. 품질 이력 아카이빙** : 정상 입고 성적서 DB 영구 저장")
                 else:
-                    st.write("**1. 출하/입고 보류** : 불합격 로트 자동 입고 락(Lock) 처리")
+                    st.write("1. 출하/입고 보류 : 불합격 로트 자동 입고 락(Lock) 처리")
                     st.write("**2. 표준 NCR 통보서 자동 생성** : 협력사 대상 즉시 이메일 발송")
-                    st.write("**3. 3영업일 내 8D 대책서 요구** : 원인분석(5-Why) 제출 필수")
-                    st.write("**4. 차기 로트 검사 수준 격상** : ISO 2859 보통검사 강화검사(Tightened)")
+                    st.write("3. 3영업일 내 8D 대책서 요구 : 원인분석(5-Why) 제출 필수")
+                    st.write("4. 차기 로트 검사 수준 격상 : ISO 2859 보통검사 강화검사(Tightened)")
 
         # [5] AI 기반 과거 이력 바탕 중점 유의점 및 리스크 분석
         with st.container(border=True):
@@ -679,10 +679,10 @@ if "1. 성적서"in nav_menu:
 
             with col_p2:
                 with st.container(border=True):
-                    st.markdown("**AI 도출 과거 바탕 중점 유의점**")
+                    st.markdown("AI 도출 과거 바탕 중점 유의점")
                     for p_item in past_analysis.get("precautions", []):
                         if "긴급 경보" in p_item or "부적합" in p_item or "이탈" in p_item:
-                            st.markdown(f"- **{p_item}**")
+                            st.markdown(f"- {p_item}")
                         else:
                             st.markdown(f"- {p_item}")
 
@@ -695,9 +695,9 @@ if "1. 성적서"in nav_menu:
 
             with col_p3:
                 with st.container(border=True):
-                    st.markdown("**AI 추천 사전 예방 가이드 & 조치**")
+                    st.markdown("AI 추천 사전 예방 가이드 & 조치")
                     for a_idx, a_item in enumerate(past_analysis.get("action_guides", []), start=1):
-                        st.markdown(f"**{a_idx}.** {a_item}")
+                        st.markdown(f"{a_idx}. {a_item}")
 
         # [6] 다국어 공식 통보 초안 생성
         with st.container(border=True):
@@ -717,7 +717,7 @@ if "1. 성적서"in nav_menu:
             with col_mail_opt2:
                 supp_name = evaluated.get("supplier", "글로벌 협력사")
                 mod_code = evaluated.get("model_code", "-")
-                st.info(f"수신처: **{supp_name} 품질보증부** | 대상모델: **{mod_code}**")
+                st.info(f"수신처: {supp_name} 품질보증부 | 대상모델: {mod_code}")
 
             custom_note = st.text_input("추가 품질 지시사항 (선택사항, 예: 긴급 회신 기한, 대체 로트 선별 일정 등)", placeholder="예: 2차 시료 추가 검사 요청 및 24시간 이내 선별 인원 투입 일정 회신 요망", key="custom_mail_note")
 
@@ -756,7 +756,7 @@ if "1. 성적서"in nav_menu:
             if cur_draft:
                 st.divider()
                 with st.container(border=True):
-                    st.markdown(f"**제목:** {cur_draft.get('subject', '')}")
+                    st.markdown(f"제목: {cur_draft.get('subject', '')}")
                     st.caption(f"작성 엔진: {cur_draft.get('source', '시스템 표준 비즈니스 템플릿')} | 적용 언어: {cur_draft.get('language', selected_lang)}")
 
                 current_body_val = st.session_state.get("textarea_draft_body", cur_draft.get("body", ""))
@@ -857,7 +857,7 @@ if "2. 협력사"in nav_menu:
         if matched_records:
             df_v = pd.DataFrame(matched_records)
             v_cols = [c for c in ["id", "timestamp", "supplier", "model_code", "product_name", "final_verdict", "defect_count", "note"] if c in df_v.columns]
-            st.markdown(f"**[{sel_v}] 출하 성적서 상세 이력**")
+            st.markdown(f"[{sel_v}] 출하 성적서 상세 이력")
             st.dataframe(df_v[v_cols], use_container_width=True, height=260)
 
 # =============================================================
@@ -881,7 +881,7 @@ if "3. 과거 이력"in nav_menu:
         if all_h:
             df_all = pd.DataFrame(all_h)
             cols_show = [c for c in ["id", "timestamp", "supplier", "model_code", "product_name", "final_verdict", "defect_count"] if c in df_all.columns]
-            st.markdown("**전체 출하 검사 이력 로그**")
+            st.markdown("전체 출하 검사 이력 로그")
             st.dataframe(df_all[cols_show], use_container_width=True, height=280)
 
 # =============================================================
@@ -911,7 +911,7 @@ if "4. 전사 동기화"in nav_menu:
         cloud_data = sheet_mgr.fetch_sheet_data_via_csv()
         if cloud_data:
             df_cloud = pd.DataFrame(cloud_data)
-            st.markdown(f"**구글 시트 라이브 데이터 (최근 {len(cloud_data)}건 동기화됨)**")
+            st.markdown(f"구글 시트 라이브 데이터 (최근 {len(cloud_data)}건 동기화됨)")
 
             def highlight_cloud_verdict(val):
                 if val == 'PASS':
@@ -929,7 +929,7 @@ if "4. 전사 동기화"in nav_menu:
 
         col_link1, col_link2 = st.columns([2, 1])
         with col_link1:
-            st.markdown(f"**구글 드라이브 원본 주소:** `{sheet_url}`")
+            st.markdown(f"구글 드라이브 원본 주소: `{sheet_url}`")
             st.caption("※ 구글 보안 정책과 관계없이 위의 실시간 표 및 우측 버튼을 통해 항상 정상 확인하실 수 있습니다.")
         with col_link2:
             st.link_button("새 창에서 구글 시트 전체 화면 열기", sheet_url, use_container_width=True)
