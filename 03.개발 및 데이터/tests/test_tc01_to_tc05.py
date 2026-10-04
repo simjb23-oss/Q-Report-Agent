@@ -75,7 +75,7 @@ class TestCOAGuardTC01to05(unittest.TestCase):
     def test_tc04_chinese_report_parsing(self):
         """TC-04: 중국 협력사 중문 성적서 파싱 (언어/모델 감지 및 엔티티 추출)"""
         parser = InspectionReportParser()
-        sample_path = os.path.join(self.data_dir, "COA_Sample_07_Haier_Blender_FinalInspection_ACCEPT.pdf")
+        sample_path = os.path.join(self.data_dir, "COA_Sample_07_MYLUX_Blender_FinalInspection_PASS.pdf")
         if os.path.exists(sample_path):
             parsed = parser.parse_file(sample_path)
             self.assertIn("model_code", parsed)
