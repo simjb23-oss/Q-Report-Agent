@@ -802,7 +802,9 @@ if "4. 전사 동기화"in nav_menu:
         st.subheader("[전사 동기화] 클라우드 구글 스프레드시트 전사 실시간 대시보드")
 
         sheet_mgr = AuditManager()
-        webhook_url, sheet_url = get_sheet_config()
+        _sheet_cfg = get_sheet_config()
+        webhook_url = _sheet_cfg.get("webhook_url", "")
+        sheet_url = _sheet_cfg.get("sheet_url", "") or "https://docs.google.com/spreadsheets"
 
         st.info("● 검사 판정 완료 즉시 Google Apps Script Webhook을 통해 클라우드 스프레드시트에 전사 실시간 동기화됩니다.")
 
