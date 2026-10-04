@@ -26,6 +26,7 @@ from src.parsers.report_parser import InspectionReportParser
 from src.core.evaluator import ToleranceEvaluator
 from src.core.ncr_generator import NCRGenerator
 from src.core.audit_manager import AuditManager, get_sheet_config, save_sheet_config
+from src.core.vendor_manager import VendorManager
 from src.core.email_drafter import EmailDrafter
 
 # 앱 아이콘 로드
@@ -808,36 +809,103 @@ if "1. 성적서"in nav_menu:
 # =============================================================
 # [화면 2] 협력사 품질 분석
 # =============================================================
-if "2. 협력사"in nav_menu:
+if "2. 협력사" in nav_menu:
     with st.container(border=True):
         st.subheader("[협력사 품질 분석] 글로벌 공급망 품질 등급 및 누적 성적서 관제")
 
+        vm = VendorManager()
+        all_vendors = vm.load_all()
         audit_mgr_v = AuditManager()
         all_v_history = audit_mgr_v.load_all()
 
-        sample_vendors = [
-            {"name": "HOTOEM", "factory": "중국 선전공장", "model": "BL-E01 초고속 블렌더", "grade": "A등급 (우수)"},
-            {"name": "MYLUX", "factory": "중국 닝보공장", "model": "BL-D01 진공 블렌더", "grade": "B등급 (관리요망)"},
-            {"name": "크리스탈 (CRASTAL)", "factory": "대한민국 창원공장", "model": "TM-HB1 티마스터", "grade": "A+등급 (최우수)"}
-        ]
+        st.caption("주요 글로벌 완제품 제조사 4개소 및 국내외 정밀 부품 협력사의 출하검사 이력을 실시간 통합 관제합니다.")
 
-        col_v1, col_v2, col_v3 = st.columns(3)
-        for col_v, v_info in zip([col_v1, col_v2, col_v3], sample_vendors):
-            with col_v:
+        # 1. 글로벌 핵심 공급사 4개소 현황 카드 (동적 4열 렌더링)
+        cols_v = st.columns(len(all_vendors) if len(all_vendors) <= 4 else 4)
+        for idx, v_info in enumerate(all_vendors[:4]):
+            with cols_v[idx]:
                 with st.container(border=True):
-                    st.metric("공급사", v_info['name'])
-                    st.caption(f"위치: {v_info['factory']} | 주요생산: {v_info['model']}")
-                    st.info(f"종합평가: {v_info['grade']}")
+                    v_name = v_info.get("short_name", v_info.get("vendor_name", "-"))
+                    v_country = v_info.get("country", "-")
+                    v_category = v_info.get("category", "-")
+                    v_grade = v_info.get("quality_grade", "A")
+                    v_status = v_info.get("status", "정상 가동")
+                    models_str = ", ".join(v_info.get("supplied_models", []))
+
+                    st.metric("공급사", v_name)
+                    st.caption(f"거점: {v_country} | 구분: {v_category}")
+                    st.caption(f"공급모델: {models_str}")
+                    
+                    if v_status == "중점 관리":
+                        st.warning(f"등급: {v_grade}등급 ({v_status})")
+                    else:
+                        st.success(f"등급: {v_grade}등급 ({v_status})")
 
         st.divider()
 
-        vendor_opts = ["HOTOEM (선전공장)", "MYLUX (닝보공장)", "크리스탈 (창원공장)"]
-        sel_v = st.selectbox("분석 대상 협력사 선택", vendor_opts, index=0)
-        v_key = sel_v.split(" ")[0].strip()
+        # 2. 분석 대상 협력사 선택 드롭다운 (등록 협력사 + 성적서 이력 협력사 자동 동기화)
+        vendor_select_options = []
+        vendor_map = {}
 
-        matched_records = [h for h in all_v_history if v_key.lower() in str(h.get("supplier", "")).lower() or (v_key in str(h.get("supplier", "")))]
-        if not matched_records:
-            matched_records = all_v_history[:3]
+        # 1) 등록된 마스터 협력사
+        for v in all_vendors:
+            s_name = v.get("short_name", "")
+            country_part = v.get("country", "").replace("🇨🇳", "").replace("🇰🇷", "").strip()
+            cat_part = v.get("category", "").split("/")[0].strip()
+            label = f"[완제품] {s_name} ({country_part} | {cat_part})"
+            vendor_select_options.append(label)
+            vendor_map[label] = {"type": "registered", "data": v, "name": s_name}
+
+        # 2) 감사 이력에 존재하는 부품/원자재 공급사
+        core_keys = ["hotoem", "mylux", "crastal", "크리스탈", "feipu", "페이푸"]
+        seen_part_suppliers = set()
+        for h in all_v_history:
+            sup = str(h.get("supplier", "")).strip()
+            if not sup:
+                continue
+            is_core = any(ck in sup.lower() for ck in core_keys)
+            if not is_core and sup not in seen_part_suppliers:
+                seen_part_suppliers.add(sup)
+                label = f"[부품/소재] {sup} (출하 성적서 등록사)"
+                vendor_select_options.append(label)
+                vendor_map[label] = {"type": "parts", "data": None, "name": sup}
+
+        col_sel1, col_sel2 = st.columns([3, 1])
+        with col_sel1:
+            sel_vendor_label = st.selectbox("분석 대상 협력사 선택", vendor_select_options, index=0)
+        with col_sel2:
+            st.metric("등록 협력망", f"{len(vendor_select_options)}개사")
+
+        sel_meta = vendor_map.get(sel_vendor_label, {})
+        sel_name = sel_meta.get("name", sel_vendor_label.split(" ")[1])
+        sel_data = sel_meta.get("data")
+
+        # 해당 협력사의 실제 성적서 이력 필터링
+        matched_records = []
+        for h in all_v_history:
+            sup_str = str(h.get("supplier", "")).strip().lower()
+            mod_str = str(h.get("model_code", "")).strip().lower()
+            key_lower = sel_name.lower()
+
+            if key_lower in sup_str or sup_str in key_lower:
+                matched_records.append(h)
+            elif ("crastal" in key_lower or "크리스탈" in key_lower) and ("crastal" in sup_str or "크리스탈" in sup_str):
+                matched_records.append(h)
+            elif ("feipu" in key_lower or "페이푸" in key_lower) and ("feipu" in sup_str or "페이푸" in sup_str or "cj-b03" in mod_str):
+                matched_records.append(h)
+
+        # 3. 협력사 상세 프로필 & 품질 KPI
+        if sel_data:
+            with st.container(border=True):
+                p_col1, p_col2, p_col3, p_col4 = st.columns(4)
+                p_col1.caption(f"정식 상호명: {sel_data.get('vendor_name', '-')}")
+                p_col1.write(f"공급 품목: {sel_data.get('category', '-')}")
+                p_col2.caption(f"품질 규격: {sel_data.get('inspection_spec', '-')}")
+                p_col2.write(f"담당자: {sel_data.get('contact_person', '-')}")
+                p_col3.caption(f"연락처: {sel_data.get('contact_phone', '-')}")
+                p_col3.write(f"이메일: {sel_data.get('contact_email', '-')}")
+                p_col4.caption(f"최근 검사일: {sel_data.get('last_inspection_date', '-')}")
+                p_col4.write(f"특이사항: {sel_data.get('notes', '-')}")
 
         v_total = len(matched_records)
         v_pass = sum(1 for h in matched_records if h.get("final_verdict") == "PASS")
@@ -851,11 +919,25 @@ if "2. 협력사"in nav_menu:
             c_k3.metric("부적합(NCR) 차단", f"{v_fail}건")
             c_k4.metric("출하 품질 합격률", f"{v_rate}%")
 
+        # 4. 상세 성적서 이력 테이블
         if matched_records:
             df_v = pd.DataFrame(matched_records)
             v_cols = [c for c in ["id", "timestamp", "supplier", "model_code", "product_name", "final_verdict", "defect_count", "note"] if c in df_v.columns]
-            st.markdown(f"[{sel_v}] 출하 성적서 상세 이력")
-            st.dataframe(df_v[v_cols], use_container_width=True, height=260)
+            rename_map = {
+                "id": "감사 ID",
+                "timestamp": "검사 일시",
+                "supplier": "공급사명",
+                "model_code": "모델코드",
+                "product_name": "제품명",
+                "final_verdict": "최종판정",
+                "defect_count": "결함수",
+                "note": "비고/조치사항"
+            }
+            df_v_display = df_v[v_cols].rename(columns=rename_map)
+            st.markdown(f"[{sel_name}] 출하 성적서 상세 이력 ({v_total}건)")
+            st.dataframe(df_v_display, use_container_width=True, height=260)
+        else:
+            st.info(f"선택하신 협력사({sel_name})의 최근 출하 성적서가 대기 중입니다.")
 
 # =============================================================
 # [화면 3] 과거 이력 & 잠재 위험 분석

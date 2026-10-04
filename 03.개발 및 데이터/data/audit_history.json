@@ -1,5 +1,20 @@
 [
   {
+    "id": "AUDIT-2026-0016",
+    "timestamp": "2026-09-28 14:15:30",
+    "filename": "260928_FEIPU_CJ-B03_출하검사성적서.pdf",
+    "supplier": "FEIPU (페이푸전기)",
+    "model_code": "CJ-B03",
+    "product_name": "전동 착즙기 CJ-B03",
+    "report_no": "FP-26-0928",
+    "order_qty": 2000,
+    "sample_qty": 125,
+    "final_verdict": "PASS",
+    "status_label": "[정상]",
+    "defect_count": 0,
+    "note": "모터 구동 회전수(RPM) 및 기어 압착 하중 기준 부합 (정상 판정)."
+  },
+  {
     "id": "AUDIT-2026-0014",
     "timestamp": "2026-09-26 10:30:22",
     "filename": "COA_Sample_04_SiliconeGasket_WARNING.pdf",
