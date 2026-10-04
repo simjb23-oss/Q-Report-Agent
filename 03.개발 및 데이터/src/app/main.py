@@ -221,7 +221,7 @@ with st.sidebar:
 with st.container(border=True):
     col_h1, col_h2 = st.columns([3, 1])
     with col_h1:
-        st.title("[칼퇴보증] 성적서 자동 판정 시스템 (COA-Guard)")
+        st.title("[칼퇴보증] 성적서 자동 판정 시스템")
         st.write("검사성적서 다국어 자동 판독 & 표준 NCR 발행 및 초안 제안 AI Agent")
     with col_h2:
         st.info("경남 제조 AI·AX 플랫폼")
