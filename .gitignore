@@ -32,3 +32,12 @@ desktop.ini
 04.발표 및 최종 제출/
 5.제출용/
 
+# Temporary patch & dump files
+pdf*.md
+fix_*.py
+patch_*.py
+create_*.py
+update_*.py
+main_old.py
+
+
